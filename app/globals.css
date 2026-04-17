@@ -1,26 +1,74 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* The Botanical Archivist Color System */
+  --color-on-surface: #161d1a;
+  --color-on-background: #161d1a;
+  --color-outline-variant: #c2c8c1;
+  --color-on-surface-variant: #424843;
+  --color-tertiary-container: #59373b;
+  --color-primary-container: #2d4636;
+  --color-tertiary-fixed: #ffd9dc;
+  --color-on-secondary-fixed: #141e17;
+  --color-surface-container-low: #e4eee5;
+  --color-surface-container-highest: #dce4de;
+  --color-surface-variant: #dce4de;
+  --color-inverse-surface: #2a322e;
+  --color-inverse-primary: #b1cdb8;
+  --color-error: #ba1a1a;
+  --color-on-primary-container: #97b39f;
+  --color-on-secondary-container: #5b655d;
+  --color-on-tertiary-fixed: #2f1317;
+  --color-on-primary-fixed: #072013;
+  --color-secondary-container: #d7e3d8;
+  --color-inverse-on-surface: #ebf3ed;
+  --color-surface-bright: #f3fbf5;
+  --color-on-secondary: #ffffff;
+  --color-surface-dim: #d4dcd6;
+  --color-on-tertiary-fixed-variant: #603d41;
+  --color-surface-container-lowest: #ffffff;
+  --color-background: #e8f0e8;
+  --color-on-tertiary-container: #cfa1a5;
+  --color-tertiary-fixed-dim: #ebbabf;
+  --color-secondary-fixed: #dae5db;
+  --color-surface-tint: #4a6453;
+  --color-on-tertiary: #ffffff;
+  --color-on-primary-fixed-variant: #334c3c;
+  --color-primary-fixed: #ccead3;
+  --color-primary: #173021;
+  --color-surface: #e8f0e8;
+  --color-surface-container: #e8f0ea;
+  --color-primary-fixed-dim: #b1cdb8;
+  --color-error-container: #ffdad6;
+  --color-on-secondary-fixed-variant: #3f4941;
+  --color-secondary-fixed-dim: #bec9bf;
+  --color-outline: #737973;
+  --color-surface-container-high: #e2eae4;
+  --color-tertiary: #402226;
+  --color-on-primary: #ffffff;
+  --color-on-error: #ffffff;
+  --color-secondary: #566159;
+  --color-on-error-container: #93000a;
+  --color-title: #33cc33;
+
+  /* Typography Mapping */
+  --font-headline: var(--font-manrope), sans-serif;
+  --font-body: var(--font-newsreader), serif;
+  --font-label: var(--font-manrope), sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background) !important;
+  color: var(--color-on-surface) !important;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
