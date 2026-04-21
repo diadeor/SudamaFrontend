@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Newsreader } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 // Font Configuration
 const manrope = Manrope({
@@ -37,13 +35,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className="text-on-surface bg-background selection:bg-primary-fixed selection:text-on-primary-fixed font-label antialiased"
       >
-        <Navbar />
-        <main className="pt-25">{children}</main>
-        <Footer />
-        {/* Global Support FAB */}
-        {/* <button className="fixed bottom-8 right-8 bg-primary text-on-primary w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40">
-          <span className="material-symbols-outlined">contact_support</span>
-        </button> */}
+        {children}
       </body>
     </html>
   );

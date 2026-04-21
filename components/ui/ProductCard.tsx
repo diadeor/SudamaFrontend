@@ -11,7 +11,14 @@ interface ProductCardProps {
   description?: string;
   category?: string;
 }
-const ProductCard = ({ name, price, tag, category, isLarge = false }: ProductCardProps) => {
+const ProductCard = ({
+  name,
+  price,
+  tag,
+  category,
+  description,
+  isLarge = false,
+}: ProductCardProps) => {
   const cardClasses =
     "flex flex-col p-5 bg-surface-dim backdrop-blur-lg group rounded-2xl relative";
   return (
@@ -34,7 +41,8 @@ const ProductCard = ({ name, price, tag, category, isLarge = false }: ProductCar
           {category}
         </span>
       )}
-      <h3 className="text-primary font-bold text-lg mb-3">{name}</h3>
+      <h3 className="text-primary font-bold text-lg mb-2">{name}</h3>
+      {isLarge && description && <p className="text-md mb-5">{description}</p>}
       <p className="text-secondary font-bold text-lg">Rs. {price.toFixed(0)}</p>
       <Link href="#" className="mt-5 font-headline">
         <button className="w-full py-3 cursor-pointer hover:scale-95 transition-all rounded-2xl font-bold bg-primary text-on-primary uppercase text-md flex flex-row items-center justify-center gap-3">
