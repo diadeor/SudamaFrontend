@@ -2,7 +2,15 @@
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
-const PasswordInput = ({ className }: { className: string }) => {
+const PasswordInput = ({
+  className,
+  pass,
+  setPass,
+}: {
+  className: string;
+  pass: string;
+  setPass: Function;
+}) => {
   const [passVisible, setPassVisible] = useState(false);
   return (
     <div className="relative">
@@ -14,6 +22,8 @@ const PasswordInput = ({ className }: { className: string }) => {
         placeholder="••••••••"
         required={true}
         type={passVisible ? "text" : "password"}
+        onChange={(e) => setPass(e.target.value)}
+        value={pass}
       />
       <div className="absolute inset-y-0 left-3 pr-4 flex items-center pointer-events-none text-outline">
         <Lock size={`1.3em`} />

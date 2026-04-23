@@ -1,10 +1,14 @@
-import { ShoppingCart, Users, Sprout, Shapes } from "lucide-react";
-import { Search, UserRoundCog } from "lucide-react";
+import { ShoppingCart, Users, Sprout, Shapes, PanelsTopLeft } from "lucide-react";
+import { UserRoundCog } from "lucide-react";
 import { ReactNode } from "react";
-import DesktopDashboard from "./DesktopDashboard";
+import Link from "next/link";
+
+export const childClass = "flex flex-col gap-5 p-7 h-full";
 
 const DesktopLayout = ({ child }: { child: ReactNode }) => {
-  const tabClass = "flex-1 py-3 rounded-xl px-4 flex flex-row items-center gap-2";
+  const hoverClass =
+    "hover:scale-105 hover:bg-surface-container-lowest/40 transition-all hover:text-primary/75";
+  const tabClass = `flex-1 py-3 rounded-xl px-4 flex flex-row items-center gap-2 ${hoverClass}`;
   const activeClass = "bg-surface-container-lowest shadow-md text-primary";
 
   return (
@@ -19,20 +23,33 @@ const DesktopLayout = ({ child }: { child: ReactNode }) => {
           </p>
         </div>
         <ul className="flex flex-col gap-3 text-outline tracking-wider uppercase font-semibold">
-          <li className={tabClass}>
-            <Users /> Users
-          </li>
-          <li className={tabClass}>
-            <Sprout />
-            Products
-          </li>
-          <li className={tabClass}>
-            <Shapes /> Categories
-          </li>
-          <li className={`${tabClass} ${activeClass}`}>
-            <ShoppingCart />
-            Orders
-          </li>
+          <Link href={`/admin`}>
+            <li className={`${tabClass} ${activeClass}`}>
+              <PanelsTopLeft /> Overview
+            </li>
+          </Link>
+          <Link href={`/admin/users`}>
+            <li className={tabClass}>
+              <Users /> Users
+            </li>
+          </Link>
+          <Link href={`/admin/products`}>
+            <li className={tabClass}>
+              <Sprout />
+              Products
+            </li>
+          </Link>
+          <Link href={`/admin/categories`}>
+            <li className={tabClass}>
+              <Shapes /> Categories
+            </li>
+          </Link>
+          <Link href={`/admin/orders`}>
+            <li className={`${tabClass}`}>
+              <ShoppingCart />
+              Orders
+            </li>
+          </Link>
         </ul>
       </aside>
       <main className=" bg-surface flex-1 ml-64 flex flex-col">
@@ -43,9 +60,7 @@ const DesktopLayout = ({ child }: { child: ReactNode }) => {
           <UserRoundCog />
         </header>
         <div className="null h-17"></div>
-        <div className="left-bottom-container grow overflow-hidden">
-          <DesktopDashboard />
-        </div>
+        <div className="left-bottom-container grow bg-surface-bright">{child}</div>
       </main>
     </div>
   );

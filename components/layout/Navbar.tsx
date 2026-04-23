@@ -2,7 +2,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Search, ShoppingBag } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import validateUser from "../functions/validateUser";
 
 type active = "home" | "shop" | "care" | "journal";
 
@@ -11,6 +12,14 @@ export default function Navbar() {
   const activeClass = "text-primary border-b-2";
   const inactiveClass =
     "text-surface-tint hover:text-primary hover:scale-120 transition-all duration-250";
+  useEffect(() => {
+    const getUser = async () => {
+      const okay2 = await validateUser();
+      console.log(okay2);
+    };
+    getUser();
+  }, []);
+
   return (
     <header className="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-sm">
       <nav className="flex justify-between items-center px-5 py-2 max-w-screen-2xl mx-auto ">
