@@ -1,34 +1,42 @@
 import AdminCard from "@/components/Admin/Modules/AdminCard";
 import { Users, Sprout, ShoppingCart, Shapes } from "lucide-react";
-import { childClass } from "@/components/Admin/DesktopLayout";
+import { childClass } from "@/components/ui/css";
+import { fetchReq } from "@/components/functions/request";
+import { Stats } from "@/components/functions/types";
 
-const Overview = () => {
+const Overview = async () => {
   const iconClass = "absolute -right-10 top-0 opacity-20";
+  const statsURL = "http://localhost:5000/api/stats";
+
+  const { data, error } = await fetchReq(statsURL);
+  if (!data && error) throw new Error(error);
+  const stats: Stats = data;
+  const { userCount, productCount, orderCount, catCount } = stats;
 
   return (
     <div className={`${childClass}`}>
       <div className="top-row grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 items-center justify-between">
         <AdminCard
           title="Total users"
-          value="5"
+          value={userCount}
           change="+25%"
           Icon={<Users size={`10em`} className={iconClass} />}
         />
         <AdminCard
           title="Total products"
-          value="5"
+          value={productCount}
           change="+25%"
           Icon={<Sprout size={`10em`} className={iconClass} />}
         />
         <AdminCard
           title="Total categories"
-          value="5"
+          value={catCount}
           change="+25%"
           Icon={<Shapes size={`10em`} className={iconClass} />}
         />
         <AdminCard
           title="Total orders"
-          value="5"
+          value={orderCount}
           change="+25%"
           Icon={<ShoppingCart size={`10em`} className={iconClass} />}
         />

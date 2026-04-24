@@ -1,16 +1,11 @@
-import { ShoppingCart, Users, Sprout, Shapes, PanelsTopLeft } from "lucide-react";
+"use server";
 import { UserRoundCog } from "lucide-react";
 import { ReactNode } from "react";
-import Link from "next/link";
+import validateUser from "../functions/validateUser";
+import { redirect } from "next/navigation";
+import AdminNavigation from "./Modules/AdminNav";
 
-export const childClass = "flex flex-col gap-5 p-7 h-full";
-
-const DesktopLayout = ({ child }: { child: ReactNode }) => {
-  const hoverClass =
-    "hover:scale-105 hover:bg-surface-container-lowest/40 transition-all hover:text-primary/75";
-  const tabClass = `flex-1 py-3 rounded-xl px-4 flex flex-row items-center gap-2 ${hoverClass}`;
-  const activeClass = "bg-surface-container-lowest shadow-md text-primary";
-
+const DesktopLayout = async ({ child }: { child: ReactNode }) => {
   return (
     <div className="flex flex-row min-h-svh">
       <aside className="h-svh w-64 fixed left-0 top-0 bg-surface-container-low flex flex-col p-5 border-r border-outline-variant/15 z-40">
@@ -23,33 +18,7 @@ const DesktopLayout = ({ child }: { child: ReactNode }) => {
           </p>
         </div>
         <ul className="flex flex-col gap-3 text-outline tracking-wider uppercase font-semibold">
-          <Link href={`/admin`}>
-            <li className={`${tabClass} ${activeClass}`}>
-              <PanelsTopLeft /> Overview
-            </li>
-          </Link>
-          <Link href={`/admin/users`}>
-            <li className={tabClass}>
-              <Users /> Users
-            </li>
-          </Link>
-          <Link href={`/admin/products`}>
-            <li className={tabClass}>
-              <Sprout />
-              Products
-            </li>
-          </Link>
-          <Link href={`/admin/categories`}>
-            <li className={tabClass}>
-              <Shapes /> Categories
-            </li>
-          </Link>
-          <Link href={`/admin/orders`}>
-            <li className={`${tabClass}`}>
-              <ShoppingCart />
-              Orders
-            </li>
-          </Link>
+          <AdminNavigation />
         </ul>
       </aside>
       <main className=" bg-surface flex-1 ml-64 flex flex-col">

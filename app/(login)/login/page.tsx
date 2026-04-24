@@ -1,11 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { leftSideClass } from "../layout";
-import PasswordInput from "@/components/ui/PasswordInput";
 import LoginForm from "@/components/Admin/Modules/LoginForm";
+import { redirect } from "next/navigation";
+import validateUser from "@/components/functions/validateUser";
 
-const Login = () => {
+const Login = async () => {
+  const user = await validateUser();
+  if (user) redirect("/");
+
   return (
     <div className={`${leftSideClass} w-full flex flex-col justify-center px-5 py-12 relative`}>
       <div className="max-w-md w-full mx-auto">
@@ -16,12 +19,12 @@ const Login = () => {
         <div className="mt-10 text-center">
           <p className="font-body text-on-surface-variant">
             Don't have an account yet?&nbsp;
-            <a
+            <Link
+              href={"/register"}
               className="font-bold text-primary hover:text-primary-container transition-colors underline underline-offset-4 decoration-primary/30 hover:decoration-primary"
-              href="#"
             >
               Sign Up
-            </a>
+            </Link>
           </p>
         </div>
       </div>

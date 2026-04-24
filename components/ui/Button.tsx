@@ -38,3 +38,22 @@ export const SmallBtn = ({ children, link, extraClass, onClickFunc }: Button) =>
     </Link>
   );
 };
+
+export const ActionButton = ({
+  children,
+  onclick,
+  bg,
+}: {
+  children: any;
+  onclick?: Function;
+  bg: string;
+}) => {
+  return (
+    <button
+      onClick={onclick ? (e) => onclick(e) : undefined}
+      className={`edit ${bg} min-h-8 min-w-10 flex items-center justify-center rounded-lg cursor-pointer hover:border-2 duration-200 transition hover:scale-110`}
+    >
+      {children}
+    </button>
+  );
+};

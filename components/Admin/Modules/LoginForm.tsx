@@ -2,8 +2,10 @@
 import { useState, useEffect, useRef } from "react";
 import PasswordInput from "@/components/ui/PasswordInput";
 import Image from "next/image";
-import { Mail, ArrowRight, ChessKing } from "lucide-react";
+import { Mail, ArrowRight } from "lucide-react";
 import { postReq } from "@/components/functions/request";
+import validateUser from "@/components/functions/validateUser";
+// import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -12,12 +14,12 @@ const LoginForm = () => {
 
   const loginUser = async (e: any) => {
     e.preventDefault();
-    const loginUrl = "http://localhost:5000/api/auth/sign-in";
+    const loginUrl = "http://localhost:5000/api/auth/login";
     const reqBody = {
       email,
-      password,
+      pass: password,
     };
-    const loginReq = await postReq(loginUrl, reqBody);
+    const loginReq = await postReq(loginUrl, reqBody, false);
     console.log(loginReq);
   };
 

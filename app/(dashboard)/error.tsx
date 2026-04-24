@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { DefinedError } from "@/components/functions/types";
-import { childClass } from "@/components/Admin/DesktopLayout";
+import { childClass } from "@/components/ui/css";
 import { SmallBtn } from "@/components/ui/Button";
 import { RotateCcw } from "lucide-react";
 

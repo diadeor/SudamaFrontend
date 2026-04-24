@@ -2,7 +2,7 @@ import { TrendingUp, ShoppingCart, LucideIcon, Icon, LucideProps } from "lucide-
 import { ReactElement, ReactNode } from "react";
 interface Card {
   title: string;
-  value: string;
+  value: string | number;
   change: string;
   Icon: ReactNode;
 }
