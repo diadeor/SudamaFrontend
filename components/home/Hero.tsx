@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { HeroText, HeroSubText } from "./HeroText";
+import { HeroText, HeroSubText } from "./Animations";
 
 const Hero = () => {
   return (
-    <section className="max-w-screen-2xl mx-auto py-5 pb-15">
+    <section className="bg-background max-w-screen-2xl mx-auto py-5 pb-15">
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-12 items-end justify-end">
         <div className="lg:col-span-5 lg:mb-0">
           <h1 className="font-headline flex flex-col gap-2 font-black text-6xl md:text-8xl text-primary leading-[0.9] tracking-tighter mb-8">

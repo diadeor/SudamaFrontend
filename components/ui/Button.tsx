@@ -26,7 +26,7 @@ export const LargeBtn = ({ children, link, extraClass, onClickFunc }: Button) =>
 
 export const SmallBtn = ({ children, link, extraClass, onClickFunc }: Button) => {
   const buttonClass =
-    "px-6 py-2 rounded-lg flex flex-row gap-3 w-full items-center bg-surface-tint text-white cursor-pointer hover:scale-105 transition-all";
+    "px-6 py-2 rounded-lg flex flex-row gap-2 w-full items-center bg-surface-tint text-white cursor-pointer hover:scale-105 transition-all";
   return (
     <Link href={link ?? "#"}>
       <button

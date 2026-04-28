@@ -13,6 +13,7 @@ import {
   Flower2,
 } from "lucide-react";
 import ShopCard from "@/components/ui/ShopCard";
+import { CircGallery } from "@/components/home/Animations";
 
 export default function Home() {
   return (
@@ -29,7 +30,7 @@ export default function Home() {
         </div>
       </Section>
       <Section title="Seasonal Highlights" subTitle="Specimens" linkText="View More">
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8 ">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6">
           <ShopCard
             name="Giant Fiddle Leaf Fig"
             regularPrice={185.0}
@@ -38,6 +39,7 @@ export default function Home() {
           />
           <ShopCard name="Calathea Orbifolia" regularPrice={42.0} category="ok" goTo="3" />
           <ShopCard name="Sansevieria 'Laurentii'" regularPrice={34.0} category="ok" goTo="4" />
+          <ShopCard name="Monstera'" regularPrice={34.0} category="ok" goTo="5" />
         </div>
       </Section>
 
@@ -61,6 +63,13 @@ export default function Home() {
           </div>
         </div>
       </Section>
+
+      <div className=" flex flex-row items-center justify-center py-5">
+        <div className="relative w-full h-100 lg:h-140  max-w-screen-2xl">
+          <CircGallery />
+        </div>
+      </div>
+
       <Section>
         <div className="relative rounded-[3rem] overflow-hidden bg-primary-container py-12 px-8 text-center flex flex-col items-center">
           <div className="absolute inset-0 opacity-10 pointer-events-none">

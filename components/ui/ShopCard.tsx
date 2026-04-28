@@ -1,4 +1,4 @@
-import { Heart, Sun, CircleFadingPlus } from "lucide-react";
+import { Heart, Sun, BadgePlus } from "lucide-react";
 import { SmallBtn } from "./Button";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,10 +31,12 @@ const ShopCard = ({ name, category, salePrice, regularPrice, goTo }: Shop) => {
       </Link>
       <div className="px-2">
         <div className="flex flex-col justify-between items-start mb-1 ">
-          <h3 className="text-lg font-bold text-primary">{name}</h3>
-          <p className="text-[0.70rem] uppercase tracking-widest text-outline font-bold mb-1">
-            {category}
-          </p>
+          <Link href={`/shop/${goTo}`}>
+            <h3 className="text-lg font-bold text-primary">{name}</h3>
+            <p className="text-[0.70rem] uppercase tracking-widest text-outline font-bold mb-1">
+              {category}
+            </p>
+          </Link>
           <div className="third-row flex flex-row items-center justify-between w-full ">
             {salePrice && (
               <span className="text-xl font-medium text-secondary ">
@@ -45,8 +47,8 @@ const ShopCard = ({ name, category, salePrice, regularPrice, goTo }: Shop) => {
               <span className="text-xl font-medium text-secondary">Rs. {regularPrice}</span>
             )}
             <SmallBtn link="okay" extraClass="hover:animate-bounce ease-in-out">
-              <CircleFadingPlus />
-              Add to basket
+              <BadgePlus size={`1.3em`} />
+              Add
             </SmallBtn>
           </div>
         </div>

@@ -1,5 +1,6 @@
 "use client";
 import BlurText from "../animations/BlurText";
+import CircularGallery from "../animations/CircularGallery";
 
 export const HeroText = () => {
   const handleAnimationComplete = () => {
@@ -31,6 +32,18 @@ export const HeroSubText = () => {
       stepDuration={0.25}
       onAnimationComplete={handleAnimationComplete}
       className="italic font-body font-normal text-secondary"
+    />
+  );
+};
+
+export const CircGallery = () => {
+  return (
+    <CircularGallery
+      bend={1}
+      textColor="#161d1a"
+      borderRadius={0.15}
+      scrollEase={0.2}
+      scrollSpeed={3}
     />
   );
 };

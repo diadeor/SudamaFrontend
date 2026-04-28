@@ -10,7 +10,7 @@ const Shop = () => {
         <div className="absolute -top-2 -right-3 opacity-50 pointer-events-none">
           <Image src={"/top-right.png"} width={150} height={500} alt="okay" />
         </div>
-        <span className="label-md text-ozn-surface-variant tracking-widest font-medium uppercase text-xs block mb-1">
+        <span className="label-md text-on-surface-variant tracking-widest font-medium uppercase text-xs block mb-1">
           Curated Collection
         </span>
         <h1 className="text-3xl z-15 font-extrabold leading-tight tracking-[-0.02em] text-primary">
@@ -27,8 +27,14 @@ const Shop = () => {
           <ShopFilters />
         </aside>
         <div className="grow">
-          <div className="grid grid-cols-[repeat(auto-fit, minmax(300px,1fr))] gap-8">
-            <ShopCard name="Monstera" category="Dunno" salePrice={500} regularPrice={75} goTo="1" />
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6">
+            <ShopCard
+              name="Monstera"
+              category="Dunno"
+              salePrice={500}
+              regularPrice={750}
+              goTo="1"
+            />
             <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
             <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
             <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
