@@ -4,16 +4,16 @@ import { ReactNode } from "react";
 
 interface Button {
   children: ReactNode;
-  link: string;
+  link?: string;
   extraClass?: string;
   onClickFunc?: Function;
 }
 
 export const LargeBtn = ({ children, link, extraClass, onClickFunc }: Button) => {
   const buttonClass =
-    "w-full px-5 py-2.5 cursor-pointer hover:scale-95 transition-all rounded-2xl font-bold bg-primary text-on-primary uppercase text-md flex flex-row items-center justify-center gap-3";
+    "w-full px-5 py-3 cursor-pointer hover:scale-95 transition-all rounded-2xl font-bold bg-primary text-on-primary uppercase text-md flex flex-row items-center justify-center gap-3";
   return (
-    <Link href={link} className="font-headline">
+    <Link href={link ?? "#"} className="font-headline">
       <button
         onClick={() => (onClickFunc ? onClickFunc() : null)}
         className={`${buttonClass} ${extraClass}`}
@@ -28,7 +28,7 @@ export const SmallBtn = ({ children, link, extraClass, onClickFunc }: Button) =>
   const buttonClass =
     "px-6 py-2 rounded-lg flex flex-row gap-3 w-full items-center bg-surface-tint text-white cursor-pointer hover:scale-105 transition-all";
   return (
-    <Link href={link}>
+    <Link href={link ?? "#"}>
       <button
         onClick={() => (onClickFunc ? onClickFunc() : null)}
         className={`${buttonClass} ${extraClass}`}

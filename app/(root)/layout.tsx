@@ -6,7 +6,7 @@ const NormalLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div>
       <Navbar />
-      <main className="pt-25">{children}</main>
+      <main className="pt-25 px-5 md:px-10">{children}</main>
       <Footer />
     </div>
   );

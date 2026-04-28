@@ -10,10 +10,10 @@ interface Section {
 }
 
 const Section = ({ title, subTitle, children, linkText, className }: Section) => {
-  const firstRowDisabled = !title || !subTitle || !linkText ? true : false;
+  const firstRowDisabled = !title && !subTitle && !linkText ? true : false;
   return (
-    <section className={`px-5 py-15 bg-surface-container-low ${className}`}>
-      <div className="max-w-screen-2xl mx-auto ">
+    <section className={` py-10 bg-surface-container-low ${className} w-full`}>
+      <div className="max-w-screen-2xl mx-auto w-full">
         {!firstRowDisabled && (
           <div className="flex flex-row justify-between mb-10 items-center">
             <div>

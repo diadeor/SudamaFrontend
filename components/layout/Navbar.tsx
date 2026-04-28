@@ -13,7 +13,7 @@ export default async function Navbar() {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-sm">
-      <nav className="flex justify-between items-center px-5 py-2 max-w-screen-2xl mx-auto ">
+      <nav className="flex justify-between items-center px-5 md:px-10 py-2 max-w-screen-2xl mx-auto ">
         <Link href="/">
           <Image src="/sudama.png" alt="Sudama Logo" width="35" height="50" />
         </Link>
