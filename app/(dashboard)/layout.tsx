@@ -8,7 +8,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
       <div className="hidden md:block">
         <DesktopLayout child={children} />
       </div>
-      <div className="hidden lg:hidden">
+      <div className=" md:hidden">
         <MobileLayout child={children} />
       </div>
     </main>

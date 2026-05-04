@@ -3,10 +3,14 @@ import { Users, Sprout, ShoppingCart, Shapes } from "lucide-react";
 import { childClass } from "@/components/ui/css";
 import { fetchReq } from "@/components/functions/request";
 import { Stats } from "@/components/functions/types";
+import validateUser from "@/components/functions/validateUser";
 
 const Overview = async () => {
   const iconClass = "absolute -right-10 top-0 opacity-20";
   const statsURL = "http://localhost:5000/api/stats";
+
+  const user = await validateUser();
+  const { name, id } = user;
 
   const { data, error } = await fetchReq(statsURL);
   if (!data && error) throw new Error(error);
@@ -15,6 +19,12 @@ const Overview = async () => {
 
   return (
     <div className={`${childClass}`}>
+      <p className="text-4xl font-extrabold tracking-tight">
+        Howdy,{" "}
+        <span className=" bg-linear-to-r from-on-primary-container to-on-surface-variant bg-clip-text text-transparent">
+          {name.split(" ")[0]}.
+        </span>
+      </p>
       <div className="top-row grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 items-center justify-between">
         <AdminCard
           title="Total users"

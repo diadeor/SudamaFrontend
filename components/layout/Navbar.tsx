@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search, ShoppingBag, TextAlignJustify, UserRound } from "lucide-react";
 import validateUser from "../functions/validateUser";
+import TopNavBar from "./MobileMenu";
+import MobileMenu from "./MobileMenu";
 
 export default async function Navbar() {
   let loggedIn = false;
@@ -18,7 +20,7 @@ export default async function Navbar() {
           <Image src="/sudama.png" alt="Sudama Logo" width="35" height="50" />
         </Link>
 
-        <div className="hidden text-md md:flex gap-8 items-center font-bold tracking-tight">
+        <div className="hidden font-body text-md md:flex gap-8 items-center font-semibold tracking-wide">
           <Link href="/" className={activeClass}>
             Home
           </Link>
@@ -33,17 +35,18 @@ export default async function Navbar() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-6 text-primary">
+        <div className="flex items-center gap-4 text-primary">
           <div className="hidden lg:flex items-center bg-surface-container-high rounded-lg px-3 py-3 gap-2 h-10 w-60">
             <Search size={`1.1em`} />
             <input
-              className="bg-transparent border-none grow focus:ring-0 text-sm placeholder:text-secondary placeholder:font-semibold text-on-surface-variant outline-none"
+              className="font-body bg-transparent border-none grow focus:ring-0 placeholder:text-secondary text-on-primary-fixed placeholder:text-md outline-none"
               placeholder="Search here..."
               type="text"
             />
           </div>
-          <button className="text-primary hover:opacity-70 transition-opacity flex items-center cursor-pointer">
-            <ShoppingBag size={`1.1em`} />
+          <button className="relative text-primary hover:opacity-70 transition-opacity flex items-center cursor-pointer">
+            <ShoppingBag size={20} />
+            <span className="w-2 h-2 animate-ping absolute bg-secondary -top-0.5 -right-0.5 rounded-full "></span>
           </button>
           {!loggedIn ? (
             <Link
@@ -61,7 +64,7 @@ export default async function Navbar() {
             </Link>
           )}
           <div className="md:hidden hover:opacity-70 transition-opacity flex items-center cursor-pointer">
-            <TextAlignJustify size={`1.3em`} />
+            <MobileMenu />
           </div>
         </div>
       </nav>

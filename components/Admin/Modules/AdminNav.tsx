@@ -1,16 +1,18 @@
 "use client";
 import Link from "next/link";
-import { ShoppingCart, Users, Sprout, Shapes, PanelsTopLeft, Newspaper } from "lucide-react";
 import { tabClass } from "@/components/ui/css";
 import { usePathname } from "next/navigation";
+import { LayoutDashboard, Users, Sprout, Shapes, ShoppingCart, Newspaper } from "lucide-react";
 
-const AdminNavigation = () => {
+const AdminNavigation = ({ desktop = true }) => {
   const activeClass = "bg-surface-container-lowest shadow-md text-primary";
+  const activeMobileMenuClass =
+    "flex grow flex-col min-w-30 items-center justify-center dark:bg-primary-container text-on-primary-fixed dark:text-surface-bright rounded-2xl px-5 py-3 scale-95 duration-200 shrink-0";
   const path = usePathname();
   const tabs = [
     {
       title: "Overview",
-      Icon: PanelsTopLeft,
+      Icon: LayoutDashboard,
       link: "/admin",
       isActive: path === "/admin",
     },
@@ -50,12 +52,23 @@ const AdminNavigation = () => {
     <>
       {tabs.map((tab, index) => {
         const { title, Icon, isActive, link } = tab;
-        return (
+        return desktop ? (
           <li key={index}>
             <Link href={link} className={`${tabClass} ${isActive ? activeClass : ""}`}>
-              <Icon /> {title}
+              <Icon size={18} /> {title}
             </Link>
           </li>
+        ) : (
+          <Link
+            href={link}
+            key={index}
+            className={`${activeMobileMenuClass} ${isActive ? "bg-primary-fixed" : ""}`}
+          >
+            <Icon size={24} className="mb-1" />
+            <span className="font-manrope text-xs uppercase tracking-widest font-semibold">
+              {title}
+            </span>
+          </Link>
         );
       })}
     </>
