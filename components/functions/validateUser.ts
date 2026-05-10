@@ -7,7 +7,7 @@ const validateUser = async () => {
   const token = cookieStore.get("token")?.value;
   if (!token) return console.error("JWT token not present");
 
-  const checkUrl = "http://localhost:5000/api/users/me";
+  const checkUrl = "/api/users/me";
   const { data, error } = await fetchReq(checkUrl, true);
 
   if (error || !data) return console.error(error);

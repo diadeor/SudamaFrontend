@@ -29,8 +29,6 @@ const MobileLayout = async ({ child }: { child: ReactNode }) => {
         </div>
       </header>
 
-      {/* Dynamic Page Content injected here */}
-
       <div className="null h-18"></div>
       {child}
 

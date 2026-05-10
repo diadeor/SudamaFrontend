@@ -14,7 +14,7 @@ const LoginForm = () => {
 
   const loginUser = async (e: any) => {
     e.preventDefault();
-    const loginUrl = "http://localhost:5000/api/auth/login";
+    const loginUrl = "/api/auth/login";
     const reqBody = {
       email,
       pass: password,

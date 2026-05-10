@@ -4,7 +4,10 @@ export const adminPageDataHeader =
   "hidden md:grid font-headline tracking-tight border-b border-outline-variant/50 text-center font-bold w-full mt-5";
 
 export const adminItem =
-  "relative flex md:grid md:gap-0 px-4 py-3 bg-surface-container-low/50 rounded-lg border border-outline-variant/20 hover:border-outline-variant/70 transition-all";
+  "relative flex md:grid md:gap-0 px-4 py-3 bg-surface-container-low/40 rounded-xl border border-outline-variant/20 hover:border-outline-variant/70 transition-all";
+
+export const adminItem2 =
+  "relative flex md:gap-0 px-3 py-3 bg-surface-container-low/40 rounded-xl border border-outline-variant/20 hover:border-outline-variant/70 transition-all";
 
 const hoverClass =
   "hover:scale-105 hover:bg-surface-container-lowest/40 transition-all hover:text-primary/75";

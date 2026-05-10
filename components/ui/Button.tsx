@@ -7,16 +7,18 @@ interface Button {
   link?: string;
   extraClass?: string;
   onClickFunc?: Function;
+  form?: string;
 }
 
-export const LargeBtn = ({ children, link, extraClass, onClickFunc }: Button) => {
+export const LargeBtn = ({ children, form, link, extraClass, onClickFunc }: Button) => {
   const buttonClass =
-    "w-full px-5 py-3 cursor-pointer hover:scale-95 transition-all rounded-2xl font-bold bg-primary text-on-primary uppercase text-md flex flex-row items-center justify-center gap-3";
+    "w-full px-5 py-3 cursor-pointer hover:scale-95 transition-all rounded-xl font-bold bg-primary text-on-primary text-md flex flex-row items-center justify-center gap-2";
   return (
     <Link href={link ?? "#"} className="font-headline">
       <button
+        form={form}
         onClick={() => (onClickFunc ? onClickFunc() : null)}
-        className={`${buttonClass} ${extraClass}`}
+        className={` ${extraClass} ${buttonClass}`}
       >
         {children}
       </button>
@@ -51,7 +53,7 @@ export const ActionButton = ({
   return (
     <button
       onClick={onclick ? (e) => onclick(e) : undefined}
-      className={`edit ${bg} min-h-8 min-w-10 flex items-center justify-center rounded-lg cursor-pointer hover:border-2 duration-200 transition hover:scale-110`}
+      className={`edit ${bg} min-h-8 min-w-10 flex items-center justify-center rounded-lg cursor-pointer hover:border border-outline-variant duration-200 transition hover:scale-110`}
     >
       {children}
     </button>

@@ -10,7 +10,7 @@ interface AdminPageProps {
 const AdminPage = async ({ title, Icon, children }: AdminPageProps) => {
   return (
     <div className={`${childClass}`}>
-      <div className="users-list h-full flex flex-col p-5 rounded-xl bg-surface-container-lowest">
+      <div className="users-list h-full flex flex-col p-5 rounded-2xl bg-surface-container-lowest">
         <div className="top-row flex flex-row items-center justify-between">
           <h2 className="flex flex-row gap-2 text-xl font-bold uppercase tracking-widest ">
             {Icon}

@@ -7,7 +7,7 @@ import validateUser from "@/components/functions/validateUser";
 
 const Overview = async () => {
   const iconClass = "absolute -right-10 top-0 opacity-20";
-  const statsURL = "http://localhost:5000/api/stats";
+  const statsURL = "/api/stats";
 
   const user = await validateUser();
   const { name, id } = user;

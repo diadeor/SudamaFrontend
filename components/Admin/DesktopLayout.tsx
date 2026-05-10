@@ -21,7 +21,7 @@ const DesktopLayout = async ({ child }: { child: ReactNode }) => {
         </ul>
       </aside>
       <main className=" bg-surface flex-1 ml-40 lg:ml-64 flex flex-col">
-        <header className="fixed flex flex-row items-center justify-between bg-surface-bright z-40 top-0 h-17 right-0 left-40 lg:left-64 p-7">
+        <header className="fixed border-b-2 border-outline-variant/50 flex flex-row items-center justify-between bg-surface-bright z-40 top-0 h-17 right-0 left-40 lg:left-64 p-7">
           <h2 className="uppercase tracking-tight text-headline text-xl lg:text-2xl text-primary font-bold">
             Dashboard
           </h2>
