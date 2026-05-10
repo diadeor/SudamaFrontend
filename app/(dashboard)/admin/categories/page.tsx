@@ -15,7 +15,7 @@ const Categories = async () => {
   if (!data && error) throw new Error(error);
   const categories: Category[] = data.categories;
   return (
-    <AdminPage title="Categories" Icon={<Shapes />}>
+    <AdminPage title="Categories" Icon={<Shapes />} createLink="/admin/categories/create">
       <ul className="user-data mt-3 gap-2 grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))]">
         {categories.map((cat, index) => {
           const { _id, name, thumbnail } = cat;

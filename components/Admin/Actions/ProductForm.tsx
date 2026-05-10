@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { Category, Product } from "@/components/functions/types";
 import Image from "next/image";
 import { clientGet, clientPost } from "@/components/functions/clientReq";
+import { useRouter } from "next/router";
 
 interface ProductFormComponent {
   initialData?: Product;
@@ -27,26 +28,33 @@ export default function ProductForm({
   const form = useRef<HTMLFormElement>(null);
   const submitReq = clientPost(submitURL, isPut ? "put" : "post");
   const [previewURL, setPreviewURL] = useState<string | undefined>(initialData?.thumbnail);
+  const nav = useRouter();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setMessage({
+      type: "loader",
+      message: `Please wait while the product is being ${isPut ? "modified" : "created"}.`,
+    });
     if (!form.current) return;
     const formData = new FormData(form.current);
 
     // Frontend validation before making a request
-    if (!previewURL) return setMessage({ error: true, message: "Thumbnail is missing." });
+    if (!previewURL) return setMessage({ type: "warn", message: "Thumbnail is missing." });
     for (const [k, v] of formData) {
       if (!v) {
-        return setMessage({ error: true, message: `${k} is missing.` });
+        return setMessage({ type: "warn", message: `${k} is missing.` });
       }
       if (k === "stock") {
-        if (Number(v) < 0) setMessage({ error: true, message: `Stock cannot be less than 0` });
+        if (Number(v) < 0) setMessage({ type: "warn", message: `Stock cannot be less than 0` });
       }
-      
     }
-    return;
     const { data, error } = await submitReq(formData);
-    if (data.success) setMessage({ error: false, message: data.message });
+    if (data && data.success) {
+      setMessage({ type: "success", message: data.message });
+      nav.push("/admin/products");
+    }
+    if (error) setMessage({ type: "error", message: error });
   };
 
   const handleFile = (e: any) => {
@@ -60,6 +68,10 @@ export default function ProductForm({
       setPreviewURL(objURL);
     }
   };
+
+  useEffect(() => {
+    console.log(previewURL);
+  }, [previewURL]);
   return (
     <form
       className="grid grid-cols-1 md:grid-cols-5 gap-5 md:gap-5 -mt-2"
@@ -78,13 +90,13 @@ export default function ProductForm({
             <p className="text-sm font-label font-bold text-on-surface-variant">Product Image</p>
             <label htmlFor="thumbnail">
               {previewURL ? (
-                <div className="aspect-square relative rounded-xl overflow-hidden h-75 flex flex-col items-center justify-center bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer group">
+                <div className="aspect-square h-75 relative rounded-xl overflow-hidden flex flex-col items-center justify-center bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer group">
                   <Image
                     src={previewURL}
                     fill
-                    alt=""
+                    alt="Product image"
                     loading="eager"
-                    className=" object-contain bg-blend-multiply"
+                    className="object-cover mix-blend-multiply"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>

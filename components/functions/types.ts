@@ -25,6 +25,7 @@ export interface Category {
   _id: string;
   name: string;
   thumbnail: string;
+  description: string;
 }
 
 export interface Orders {
@@ -59,4 +60,10 @@ export interface Tabs {
   title: string;
   icon: ReactNode;
   isActive: boolean;
+}
+
+// Message
+export interface Info {
+  type: "loading" | "warn" | "error" | "success";
+  message: string;
 }

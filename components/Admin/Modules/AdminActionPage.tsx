@@ -11,8 +11,8 @@ interface AdminActionPageProps {
 
 const AdminActionPage = ({ title, children, navBack }: AdminActionPageProps) => {
   return (
-    <div className={`${childClass} relative`}>
-      <div className="flex items-center justify-between">
+    <div className={`${childClass} relative max-w-7xl`}>
+      <div className="flex flex-row items-center justify-between">
         <div className="flex items-center gap-2 ">
           <Link
             href={navBack}

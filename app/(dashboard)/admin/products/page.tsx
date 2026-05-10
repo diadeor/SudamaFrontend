@@ -16,7 +16,7 @@ const Products = async () => {
   const products: Product[] = data.products;
 
   return (
-    <AdminPage title="Products" Icon={<Sprout />}>
+    <AdminPage title="Products" Icon={<Sprout />} createLink="/admin/products/create">
       {/* <hr className="mt-3 border border-outline-variant/50 " /> */}
       <ul className="user-data mt-3 flex flex-col gap-2 xl:grid grid-cols-2">
         {products.map((prod, index) => {

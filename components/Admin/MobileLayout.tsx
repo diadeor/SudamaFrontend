@@ -7,11 +7,6 @@ import Image from "next/image";
 import AdminNavigation from "./Modules/AdminNav";
 
 const MobileLayout = async ({ child }: { child: ReactNode }) => {
-  const inactiveNavClass =
-    "flex flex-col items-center justify-center text-secondary dark:text-outline-variant py-2 hover:text-primary dark:hover:text-surface scale-95 duration-200";
-  const activeNavClass =
-    "flex flex-col items-center justify-center text-secondary bg-primary-fixed dark:text-outline-variant py-2 hover:text-primary dark:hover:text-surface scale-95 duration-200";
-
   return (
     <div className="min-h-screen pb-24 md:pb-0 bg-surface text-on-surface antialiased">
       {/* TopAppBar (Mobile Only) */}
