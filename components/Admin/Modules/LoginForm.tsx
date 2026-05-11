@@ -1,30 +1,29 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import PasswordInput from "@/components/ui/PasswordInput";
 import Image from "next/image";
 import { Mail, ArrowRight } from "lucide-react";
 import { postReq } from "@/components/functions/request";
 import validateUser from "@/components/functions/validateUser";
-// import { useRouter } from "next/navigation";
+import { clientPost } from "@/components/functions/clientReq";
+import { inputClass } from "@/components/ui/css";
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const loginReq = clientPost("/api/auth/login");
 
   const loginUser = async (e: any) => {
     e.preventDefault();
-    const loginUrl = "/api/auth/login";
     const reqBody = {
       email,
       pass: password,
     };
-    const loginReq = await postReq(loginUrl, reqBody, false);
-    console.log(loginReq);
+    const login = await loginReq(reqBody);
+    console.log(login);
   };
 
-  const inputClass =
-    "block w-full font-body text-on-surface text-md bg-surface-container-high border-0 rounded-xl py-3.5 pl-10 pr-10 focus:ring-1 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline/70";
   return (
     <form action="#" className="space-y-6" method="POST" onSubmit={(e) => loginUser(e)}>
       <div className="mb-10">

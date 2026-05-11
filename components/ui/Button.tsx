@@ -8,15 +8,24 @@ interface Button {
   extraClass?: string;
   onClickFunc?: Function;
   form?: string;
+  submit?: boolean;
 }
 
-export const LargeBtn = ({ children, form, link, extraClass, onClickFunc }: Button) => {
+export const LargeBtn = ({
+  children,
+  link,
+  extraClass,
+  onClickFunc,
+  form,
+  submit = false,
+}: Button) => {
   const buttonClass =
     "w-full px-5 py-3 cursor-pointer hover:scale-95 transition-all rounded-xl font-bold bg-primary text-on-primary text-md flex flex-row items-center justify-center gap-2";
   return (
     <Link href={link ?? "#"} className="font-headline">
       <button
         form={form}
+        type={submit ? "submit" : "button"}
         onClick={() => (onClickFunc ? onClickFunc() : null)}
         className={` ${extraClass} ${buttonClass}`}
       >

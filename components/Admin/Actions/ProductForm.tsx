@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
-import { UploadCloud, Save, XCircle, Loader2, ImageIcon, X, ChessKing } from "lucide-react";
+import { UploadCloud, Save, ChevronDown } from "lucide-react";
 import AdminActionPage from "@/components/Admin/Modules/AdminActionPage";
 import { LargeBtn } from "@/components/ui/Button";
 import { fetchReq, postReq } from "@/components/functions/request";
@@ -28,12 +28,11 @@ export default function ProductForm({
   const form = useRef<HTMLFormElement>(null);
   const submitReq = clientPost(submitURL, isPut ? "put" : "post");
   const [previewURL, setPreviewURL] = useState<string | undefined>(initialData?.thumbnail);
-  const nav = useRouter();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setMessage({
-      type: "loader",
+      type: "loading",
       message: `Please wait while the product is being ${isPut ? "modified" : "created"}.`,
     });
     if (!form.current) return;
@@ -52,7 +51,6 @@ export default function ProductForm({
     const { data, error } = await submitReq(formData);
     if (data && data.success) {
       setMessage({ type: "success", message: data.message });
-      nav.push("/admin/products");
     }
     if (error) setMessage({ type: "error", message: error });
   };
@@ -196,14 +194,14 @@ export default function ProductForm({
         <div className="bg-surface-container-lowest p-5 rounded-3xl shadow-[0_4px_16px_rgba(22,29,26,0.02)] border border-outline-variant/20 space-y-5">
           <h2 className="text-lg font-headline font-bold text-primary">Organization</h2>
 
-          <div className="space-y-2">
+          <div className="relative">
             <label className="text-sm font-label font-bold text-on-surface-variant">Category</label>
             <select
               name="category"
               key={initialData?.category || "loading"}
               defaultValue={initialData?.category.toLowerCase()}
               // onChange={(e) => setRelatedStatus({ ...relatedStatus, category: e.target.value })}
-              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary transition-all appearance-none"
+              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none"
             >
               {cats?.map((cat, index) => {
                 return (
@@ -213,41 +211,54 @@ export default function ProductForm({
                 );
               })}
             </select>
+            <div className="absolute top-10.5 right-2">
+              <ChevronDown size={"1em"} />
+            </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="relative">
             <label className="text-sm font-label font-bold text-on-surface-variant">Status</label>
             <select
               name="status"
               defaultValue="active"
-              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary transition-all appearance-none"
+              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none"
             >
               <option value="active">Active</option>
               <option value="draft">Draft</option>
             </select>
+            <div className="absolute top-10.5 right-2">
+              <ChevronDown size={"1em"} />
+            </div>
           </div>
-          <div className="space-y-2">
+          <div className="relative">
             <label className="text-sm font-label font-bold text-on-surface-variant">Badge</label>
             <select
               name="badge"
               key={initialData?.badge || "loading"}
               defaultValue={initialData?.badge.toLowerCase()}
-              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary transition-all appearance-none"
+              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none"
             >
               <option value="sale">On Sale</option>
               <option value="featured">Featured</option>
               <option value="new">New</option>
             </select>
+            <div className="absolute top-10.5 right-2">
+              <ChevronDown size={"1em"} />
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-2 md:hidden gap-2 px-2">
           <LargeBtn extraClass=" text-on-surface-variant bg-surface-container-highest">
             Cancel
           </LargeBtn>
-          <LargeBtn form="edit-or-create-form">
+          <button
+            type="submit"
+            form="edit-or-create-form"
+            className="px-6 py-2.5 rounded-xl font-label font-bold bg-primary text-on-primary hover:bg-primary-container hover:text-on-primary-container transition-colors flex items-center justify-center gap-2"
+          >
             <Save size={18} />
             Save
-          </LargeBtn>
+          </button>
         </div>
       </div>
     </form>

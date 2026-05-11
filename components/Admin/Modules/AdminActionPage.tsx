@@ -1,4 +1,4 @@
-import { childClass } from "@/components/ui/css";
+import { childClass, customScrollbar } from "@/components/ui/css";
 import { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft, Save, UploadCloud, X } from "lucide-react";
@@ -11,7 +11,7 @@ interface AdminActionPageProps {
 
 const AdminActionPage = ({ title, children, navBack }: AdminActionPageProps) => {
   return (
-    <div className={`${childClass} relative max-w-7xl`}>
+    <div className={`${childClass} relative max-w-7xl overflow-y-auto ${customScrollbar}`}>
       <div className="flex flex-row items-center justify-between">
         <div className="flex items-center gap-2 ">
           <Link

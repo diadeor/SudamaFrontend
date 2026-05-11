@@ -44,12 +44,12 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
           </h2>
           <UserRoundCog />
         </header>
-        {/* Space */}
+        {/* Space
         <div className="h-18 md:hidden"></div>
-        <div className="h-17 hidden md:block"></div>
+        <div className="h-17 hidden md:block"></div> */}
 
         {/* Child */}
-        <div className="grow bg-surface md:bg-surface-bright pb-24 md:pb-0 left-bottom-container">
+        <div className="grow bg-surface max-h-svh md:bg-surface-bright pt-18 md:pt-17 pb-24 md:pb-0 left-bottom-container">
           {children}
         </div>
       </main>

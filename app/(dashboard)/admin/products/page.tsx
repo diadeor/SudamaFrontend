@@ -18,7 +18,7 @@ const Products = async () => {
   return (
     <AdminPage title="Products" Icon={<Sprout />} createLink="/admin/products/create">
       {/* <hr className="mt-3 border border-outline-variant/50 " /> */}
-      <ul className="user-data mt-3 flex flex-col gap-2 xl:grid grid-cols-2">
+      <ul className="user-data flex flex-col gap-2 xl:grid grid-cols-2">
         {products.map((prod, index) => {
           const { _id, name, thumbnail, category, badge, regularPrice, salePrice, stock } = prod;
           const badgeBg =

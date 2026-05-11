@@ -3,7 +3,7 @@ import { X, XCircle, CircleCheck, Loader, Info as InfoIcon } from "lucide-react"
 
 const AdminPopup = ({ info, setInfo }: { info: Info; setInfo: Function }) => {
   return (
-    <div className="absolute bg-primary/15 top-0 right-0 flex flex-col items-center justify-center w-full h-full">
+    <div className="absolute scroll- bg-primary/15 top-0 right-0 flex flex-col items-center justify-center w-full min-h-full">
       <div className="z-50 p-5 bg-surface-container-low/75 backdrop-blur-sm border-2 border-outline-variant/50 shadow-xl  text-primary rounded-2xl w-[30%] min-w-90 min-h-50 flex flex-col items-center justify-center">
         <X
           onClick={() => setInfo({ type: "error", message: "" })}
