@@ -18,3 +18,6 @@ export const customScrollbar =
 
 export const inputClass =
   "block w-full font-body text-on-surface text-md bg-surface-container-high border-0 rounded-xl py-3.5 pl-10 pr-10 focus:ring-1 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all duration-300 placeholder:text-outline/70";
+
+export const adminFormInputClass =
+  "w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all";

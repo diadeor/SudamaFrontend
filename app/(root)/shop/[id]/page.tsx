@@ -1,40 +1,59 @@
 "use client";
 
 import Image from "next/image";
-import {
-  PlusCircle,
-  Leaf,
-  Truck,
-  ShieldCheck,
-  Download,
-  Droplets,
-  Sun,
-  Sprout,
-  Wind,
-  BadgePlus,
-} from "lucide-react";
+import { Download, Droplets, Sun, Sprout, Wind, BadgePlus } from "lucide-react";
 import { LargeBtn } from "@/components/ui/Button";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Product } from "@/components/functions/types";
+import { clientGet } from "@/components/functions/clientReq";
 
 export default function ProductPage() {
+  const { id } = useParams();
+  const [product, setProduct] = useState<Product>();
+  useEffect(() => {
+    const fetchProd = async () => {
+      const { data, error } = await clientGet(`/api/products/${id}`);
+      if (data && data.success) setProduct(data.product);
+    };
+    fetchProd();
+  }, []);
+
+  const dummyProduct: Product = {
+    _id: "okay",
+    thumbnail:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuCHrcoFM61mLyiLzAC7Vtw8PX_0F_UFa0iTjtd_kfkCM8sJ9oxbfbeQhvxAK8eKHUOcV-INzG9iexVVMemV_HkcSE3aG0wpQ_F26cejaBKNTLWOjcBQXpW2DGAseZMal_L5Cz1odnCuP9cNYxZpd7-neHNgmH0kQ-ZEmPDLkZgpS_IdnINYmdijhxfuYCDHQISjOW1Xc5ZzcO8ijXhW1-aeGF3cEbQfwevK5GUdsh2SP0auSWx7iueq9J85V5vuyE_gvGF4sHeDbA",
+    name: "Fetching...",
+    category: "Fetching...",
+    salePrice: 199,
+    regularPrice: 200,
+    description: "hi there",
+    badge: "sale",
+    images: ["okay"],
+    stock: 50,
+  };
+
   return (
     <div className="">
-      <HeroSection />
+      <HeroSection data={product ? product : dummyProduct} />
       <NurturingGuide />
     </div>
   );
 }
 
-function HeroSection() {
+function HeroSection({ data }: { data: Product }) {
+  const { name, category, thumbnail, badge, stock, regularPrice, salePrice, description } = data;
+
   return (
     <section className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-12 gap-8 justify-center">
       {/* Left: Imagery & Asymmetric Grid */}
       <div className="col-span-full sm:col-span-12 lg:col-span-7 grid grid-cols-6 gap-4 relative">
         <Image
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpfkLejiFwbNrw7VhAb0NuTDbwskzcXtHXsrB8Pt3f119Z3FwXZh6kW4EiwGjZhKUIneG_ZbsM3LPdc9F8pYfIZkOxjdJtrNC1v84R805wW0DhmvJuNxHpPRKTn9GV740S7VKQZEDhrmgDlTlOHqOTMZSjvkDl5bpkZGB4sibIs5E9yO9oWpc3s_NbZojmLj9dEU10N13NuUuBqB_ec_DE2prnnZG3NAEZ4laZOGLO_G752jbuCB_k6LAMgyb_DW4KKJsz-y1vHw"
+          src={thumbnail}
           alt="Stunning close-up of a vibrant Swiss Cheese Plant"
           height={600}
           width={600}
-          className="col-span-full sm:col-span-4 lg:col-span-full rounded-2xl overflow-hidden aspect-square"
+          className="col-span-full bg-surface-tint/25 mix-blend-multiply sm:col-span-4 lg:col-span-full rounded-2xl overflow-hidden aspect-square"
         />
 
         <div className="col-span-full max-w-150 small-ones lg:col-span-full sm:col-span-2 grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 gap-4">
@@ -57,27 +76,22 @@ function HeroSection() {
 
       {/* Right: Product Information */}
       <div className="col-span-full lg:col-span-5 lg:sticky lg:top-32 space-y-5">
-        <div className="space-y-0">
-          <span className="font-label text-xs text-on-surface-variant tracking-[0.05em] uppercase font-medium">
-            Araceae Family
+        <div className="space-y-0 ">
+          <span className="font-label px-3 py-0.5 rounded-sm bg-outline-variant text-on-surface-variant text-xs  tracking-[0.05em] uppercase font-medium">
+            {category}
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-primary tracking-tighter leading-tight">
-            Swiss Cheese Plant
+            {name}
           </h1>
-          <p className="text-xl text-secondary italic font-light">Monstera Deliciosa</p>
         </div>
 
         <div className="flex items-baseline gap-2">
-          <span className="text-3xl font-headline font-bold text-primary">Rs.84</span>
-          <span className="text-sm text-outline font-medium line-through">110</span>
+          <span className="text-3xl font-headline font-bold text-primary">Rs.{salePrice}</span>
+          <span className="text-sm text-outline font-medium line-through">{regularPrice}</span>
         </div>
 
-        <div className="space-y-6">
-          <p className="text-base text-on-surface-variant leading-relaxed">
-            An iconic specimen celebrated for its dramatic, heart-shaped leaves that develop unique
-            natural perforations as they mature. This botanical masterpiece thrives in bright,
-            indirect light, bringing a sculptural elegance to any interior sanctuary.
-          </p>
+        <div className="space-y-6 md:col-span-1 lg:col-span-full">
+          <p className="text-base text-on-surface-variant leading-relaxed">{description}</p>
           <div className="flex flex-wrap gap-2">
             <span className="px-4 py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-bold uppercase tracking-wider">
               In Stock
@@ -87,7 +101,6 @@ function HeroSection() {
             </span>
           </div>
         </div>
-
         <LargeBtn extraClass="rounded-lg mt-6">
           <BadgePlus />
           Add to basket

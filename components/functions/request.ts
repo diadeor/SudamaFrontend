@@ -1,5 +1,6 @@
 "use server";
 import { cookies } from "next/headers";
+import { cache } from "react";
 
 export const fetchReq = async (url: string, attachToken = true) => {
   const cookieStorage = await cookies();
@@ -57,13 +58,12 @@ export const postReq = async (url: string, body: any, isPut = false, attachToken
     // 3. IF IT IS A FILE UPLOAD:
     // We create a brand new, clean FormData object to strip out Next.js bugs.
     finalBody = new FormData();
+
     for (const [key, value] of body.entries()) {
       // This regex magically removes the '1_', '2_', or '$ACTION_' prefixes Next.js adds!
       const cleanKey = key.replace(/^[0-9]+_/, "").replace(/^\$ACTION_[0-9]+_/, "");
       finalBody.append(cleanKey, value);
     }
-    // CRITICAL: We DO NOT set 'Content-Type' for FormData.
-    // Node's native fetch will automatically set 'multipart/form-data' with the correct boundary!
   } else {
     // 4. IF IT IS A NORMAL TEXT REQUEST:
     headers["Content-Type"] = "application/json";
@@ -90,7 +90,6 @@ export const postReq = async (url: string, body: any, isPut = false, attachToken
   } catch (parseError) {
     return { data: null, error: "Received an invalid response from the server." };
   }
-
   if (!res.ok) {
     return { data: null, error: data.message };
   }
@@ -108,3 +107,17 @@ export const postReq = async (url: string, body: any, isPut = false, attachToken
 
   return { data, error: null };
 };
+
+export const validateUser = cache(async () => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  if (!token) return console.error("JWT token not present");
+
+  const checkUrl = "/api/users/me";
+  const { data, error } = await fetchReq(checkUrl, true);
+
+  if (error || !data) return console.error(error);
+
+  if (data.success) return data.user;
+  return null;
+});

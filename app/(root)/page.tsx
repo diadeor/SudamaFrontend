@@ -1,7 +1,5 @@
 import Hero from "@/components/home/Hero";
 import Section from "@/components/layout/Section";
-import Image from "next/image";
-import ProductCard from "@/components/ui/ProductCard";
 import CatCard from "@/components/ui/CategoryCard";
 import {
   HeartPulse,
@@ -14,8 +12,12 @@ import {
 } from "lucide-react";
 import ShopCard from "@/components/ui/ShopCard";
 import { CircGallery } from "@/components/home/Animations";
+import { fetchReq } from "@/components/functions/request";
+import { Product } from "@/components/functions/types";
 
-export default function Home() {
+export default async function Home() {
+  const { data, error } = await fetchReq("/api/products", false);
+  const { products }: { products: Product[] } = data;
   return (
     <div className="home min-h-[calc(100svh-100px)]">
       <Hero />
@@ -30,16 +32,11 @@ export default function Home() {
         </div>
       </Section>
       <Section title="Seasonal Highlights" subTitle="Specimens" linkText="View More">
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6">
-          <ShopCard
-            name="Giant Fiddle Leaf Fig"
-            regularPrice={185.0}
-            category="Tropical Ferns"
-            goTo="1"
-          />
-          <ShopCard name="Calathea Orbifolia" regularPrice={42.0} category="ok" goTo="3" />
-          <ShopCard name="Sansevieria 'Laurentii'" regularPrice={34.0} category="ok" goTo="4" />
-          <ShopCard name="Monstera'" regularPrice={34.0} category="ok" goTo="5" />
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-5">
+          {products &&
+            products.map((item, index) => {
+              return <ShopCard data={item} key={index} />;
+            })}
         </div>
       </Section>
 
@@ -65,7 +62,7 @@ export default function Home() {
       </Section>
 
       <div className=" flex flex-row items-center justify-center py-5">
-        <div className="relative w-full h-100 lg:h-140  max-w-screen-2xl">
+        <div className="relative w-full h-80 lg:h-100 max-w-7xl">
           <CircGallery />
         </div>
       </div>

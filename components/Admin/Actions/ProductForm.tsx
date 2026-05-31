@@ -1,14 +1,11 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import { UploadCloud, Save, ChevronDown } from "lucide-react";
-import AdminActionPage from "@/components/Admin/Modules/AdminActionPage";
 import { LargeBtn } from "@/components/ui/Button";
-import { fetchReq, postReq } from "@/components/functions/request";
-import { useParams } from "next/navigation";
-import { Category, Product } from "@/components/functions/types";
+import { Product } from "@/components/functions/types";
 import Image from "next/image";
-import { clientGet, clientPost } from "@/components/functions/clientReq";
-import { useRouter } from "next/router";
+import { clientPost } from "@/components/functions/clientReq";
+import { adminFormInputClass } from "@/components/ui/css";
 
 interface ProductFormComponent {
   initialData?: Product;
@@ -40,6 +37,7 @@ export default function ProductForm({
 
     // Frontend validation before making a request
     if (!previewURL) return setMessage({ type: "warn", message: "Thumbnail is missing." });
+
     for (const [k, v] of formData) {
       if (!v) {
         return setMessage({ type: "warn", message: `${k} is missing.` });
@@ -114,7 +112,7 @@ export default function ProductForm({
               id="thumbnail"
               accept="image/*"
               onChange={(e) => handleFile(e)}
-              className=" rounded-lg text-white text-center cursor-pointer mb-5 hidden"
+              className="hidden"
             />
           </div>
           <div className="space-y-2">
@@ -126,7 +124,7 @@ export default function ProductForm({
               name="name"
               defaultValue={initialData?.name}
               placeholder="e.g. Monstera Deliciosa"
-              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+              className={adminFormInputClass}
             />
           </div>
 
@@ -139,7 +137,7 @@ export default function ProductForm({
               defaultValue={initialData?.description}
               rows={5}
               placeholder="Describe the plant's care needs and origin..."
-              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-y"
+              className={adminFormInputClass}
             />
           </div>
         </div>
@@ -161,7 +159,7 @@ export default function ProductForm({
                 name="regularPrice"
                 defaultValue={initialData?.regularPrice}
                 placeholder="0.00"
-                className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary transition-all"
+                className={adminFormInputClass}
               />
             </div>
             <div className="space-y-2">
@@ -173,7 +171,7 @@ export default function ProductForm({
                 name="salePrice"
                 defaultValue={initialData?.salePrice}
                 placeholder="0.00"
-                className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary transition-all"
+                className={adminFormInputClass}
               />
             </div>
             <div className="space-y-2 sm:col-span-full">
@@ -185,7 +183,7 @@ export default function ProductForm({
                 name="stock"
                 defaultValue={initialData?.stock}
                 placeholder="e.g. 50"
-                className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary transition-all"
+                className={adminFormInputClass}
               />
             </div>
           </div>
@@ -201,7 +199,7 @@ export default function ProductForm({
               key={initialData?.category || "loading"}
               defaultValue={initialData?.category.toLowerCase()}
               // onChange={(e) => setRelatedStatus({ ...relatedStatus, category: e.target.value })}
-              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none"
+              className={`${adminFormInputClass} appearance-none`}
             >
               {cats?.map((cat, index) => {
                 return (
@@ -221,7 +219,7 @@ export default function ProductForm({
             <select
               name="status"
               defaultValue="active"
-              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none"
+              className={`${adminFormInputClass} appearance-none`}
             >
               <option value="active">Active</option>
               <option value="draft">Draft</option>
@@ -236,7 +234,7 @@ export default function ProductForm({
               name="badge"
               key={initialData?.badge || "loading"}
               defaultValue={initialData?.badge.toLowerCase()}
-              className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none"
+              className={`${adminFormInputClass} appearance-none`}
             >
               <option value="sale">On Sale</option>
               <option value="featured">Featured</option>

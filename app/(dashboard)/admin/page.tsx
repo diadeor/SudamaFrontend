@@ -1,9 +1,9 @@
 import AdminCard from "@/components/Admin/Modules/AdminCard";
-import { Users, Sprout, ShoppingCart, Shapes } from "lucide-react";
+import { Users, Sprout, ShoppingCart, Shapes, UserRound } from "lucide-react";
 import { childClass } from "@/components/ui/css";
-import { fetchReq } from "@/components/functions/request";
+import { fetchReq, validateUser } from "@/components/functions/request";
 import { Stats } from "@/components/functions/types";
-import validateUser from "@/components/functions/validateUser";
+import Link from "next/link";
 
 const Overview = async () => {
   const iconClass = "absolute -right-10 top-0 opacity-20";
@@ -19,12 +19,21 @@ const Overview = async () => {
 
   return (
     <div className={`${childClass}`}>
-      <p className="text-4xl font-extrabold tracking-tight">
-        Howdy,{" "}
-        <span className=" bg-linear-to-r from-on-primary-container to-on-surface-variant bg-clip-text text-transparent">
-          {name.split(" ")[0]}.
-        </span>
-      </p>
+      <div className="flex flex-row justify-between">
+        <p className="text-4xl font-extrabold tracking-tight">
+          Howdy,{" "}
+          <span className=" bg-linear-to-r from-on-primary-container to-on-surface-variant bg-clip-text text-transparent">
+            {name.split(" ")[0]}.
+          </span>
+        </p>
+        <Link
+          href="/profile"
+          className="flex flex-row items-center justify-center rounded-xl bg-primary py-2.5 px-4 text-on-primary hover:-translate-y-2 transition-all gap-2 font-headline text-lg"
+        >
+          <UserRound />
+          View Profile
+        </Link>
+      </div>
       <div className="top-row grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 items-center justify-between">
         <AdminCard
           title="Total users"

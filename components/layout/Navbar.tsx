@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Search, ShoppingBag, TextAlignJustify, UserRound } from "lucide-react";
-import validateUser from "../functions/validateUser";
-import TopNavBar from "./MobileMenu";
+import { validateUser } from "../functions/request";
+
 import MobileMenu from "./MobileMenu";
 
 export default async function Navbar() {
@@ -15,7 +15,7 @@ export default async function Navbar() {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-sm">
-      <nav className="flex justify-between items-center px-5 md:px-10 py-2 max-w-screen-2xl mx-auto ">
+      <nav className="flex justify-between items-center px-5 md:px-10 2xl:px-0 py-2 max-w-7xl mx-auto ">
         <Link href="/">
           <Image src="/sudama.png" alt="Sudama Logo" width="35" height="50" />
         </Link>
@@ -45,19 +45,21 @@ export default async function Navbar() {
             />
           </div>
           <button className="relative text-primary hover:opacity-70 transition-opacity flex items-center cursor-pointer">
-            <ShoppingBag size={20} />
-            <span className="w-2 h-2 animate-ping absolute bg-secondary -top-0.5 -right-0.5 rounded-full "></span>
+            <Link href="/cart">
+              <ShoppingBag size={20} />
+              <span className="w-2 h-2 animate-ping absolute bg-secondary -top-0.5 -right-0.5 rounded-full "></span>
+            </Link>
           </button>
           {!loggedIn ? (
             <Link
-              href="/login"
+              href="/login?mode=login"
               className="hidden md:block bg-primary text-on-primary font-headline font-bold text-sm px-6 py-2.5 rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors"
             >
               Log in
             </Link>
           ) : (
             <Link
-              href={"/admin"}
+              href={"/profile"}
               className="hidden md:block bg-primary text-on-primary p-2.5 rounded-full"
             >
               <UserRound size={`1.2em`} className="hover:scale-110 transition-all" />

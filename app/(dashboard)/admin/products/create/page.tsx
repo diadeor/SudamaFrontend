@@ -5,6 +5,7 @@ import AdminPopup from "@/components/Admin/Modules/AdminMsgPopup";
 import { clientGet } from "@/components/functions/clientReq";
 import { Info } from "@/components/functions/types";
 import { X, CircleCheck, XCircle } from "lucide-react";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const CreateProduct = () => {
@@ -24,6 +25,12 @@ const CreateProduct = () => {
       } else {
         const categories = data.categories.map((item: any) => item.name);
         setCategories(categories);
+        if (!categories.length) {
+          setInfo({ type: "error", message: "Add a category first. Redirecting..." });
+          setTimeout(() => {
+            redirect("/admin/categories/create");
+          }, 1000);
+        }
       }
     };
     fetchVals();

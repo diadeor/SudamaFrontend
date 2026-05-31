@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
@@ -76,12 +75,13 @@ export default function MobileNavigation() {
           isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <div className="flex justify-center gap-6 text-sm font-label uppercase tracking-widest text-on-surface-variant">
-          <Link href="#" onClick={() => setIsOpen(false)}>
+        <div className="flex flex-row justify-center gap-6 text-sm font-label uppercase tracking-widest text-on-surface-variant">
+          <Link href="/profile" onClick={() => setIsOpen(false)}>
             Account
           </Link>
-          <Link href="#" onClick={() => setIsOpen(false)}>
-            Support
+          <p>|</p>
+          <Link href="/admin" onClick={() => setIsOpen(false)}>
+            Admin
           </Link>
         </div>
         <p className="text-xs text-outline font-body mt-4">© 2026 Sudama Plant Store</p>

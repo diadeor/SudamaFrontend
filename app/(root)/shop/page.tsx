@@ -2,11 +2,16 @@ import { LargeBtn } from "@/components/ui/Button";
 import ShopCard from "@/components/ui/ShopCard";
 import Image from "next/image";
 import { ShopFilters } from "@/components/ui/ShopFilters";
+import { fetchReq } from "@/components/functions/request";
+import { Product } from "@/components/functions/types";
 
-const Shop = () => {
+const Shop = async () => {
+  const { data, error } = await fetchReq("/api/products", false);
+  const { products }: { products: Product[] } = data;
+
   return (
-    <section className=" max-w-screen-2xl mx-auto">
-      <header className="mb-8 overflow-hidden  relative flex flex-col">
+    <section className="max-w-7xl mx-auto">
+      <header className="h-60 mb-8 overflow-hidden relative flex flex-col justify-center">
         <div className="absolute -top-2 -right-3 opacity-50 pointer-events-none">
           <Image src={"/top-right.png"} width={150} height={500} alt="okay" />
         </div>
@@ -27,22 +32,10 @@ const Shop = () => {
           <ShopFilters />
         </aside>
         <div className="grow">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6">
-            <ShopCard
-              name="Monstera"
-              category="Dunno"
-              salePrice={500}
-              regularPrice={750}
-              goTo="1"
-            />
-            <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
-            <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
-            <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
-            <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
-            <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
-            <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
-            <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
-            <ShopCard name="Monstera" category="Dunno" salePrice={50} regularPrice={75} goTo="1" />
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-5">
+            {products.map((item, index) => {
+              return <ShopCard data={item} key={index} />;
+            })}
           </div>
 
           <div className="mt-15 flex justify-center">

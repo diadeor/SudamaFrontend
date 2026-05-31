@@ -2,7 +2,8 @@
 import { DefinedError } from "@/components/functions/types";
 
 const NormalError = ({ error, reset }: DefinedError) => {
-  return <div>okay</div>;
+  console.log(error);
+  return <div className="max-w-screen-2xl mx-auto ">{error.message}</div>;
 };
 
 export default NormalError;
