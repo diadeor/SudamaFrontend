@@ -3,10 +3,13 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 export default function MobileNavigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const current = useSelectedLayoutSegment();
+  const active = current == null ? "/" : `/${current}`;
 
   // 1. Next.js hydration fix: Ensure we only portal on the client-side
   useEffect(() => {
