@@ -61,7 +61,7 @@ export default async function Home() {
         </div>
       </Section>
 
-      <div className=" flex flex-row items-center justify-center py-5">
+      <div className="flex flex-row items-center justify-center py-5">
         <div className="relative w-full h-75 lg:h-95 max-w-304">
           <CircGallery />
         </div>

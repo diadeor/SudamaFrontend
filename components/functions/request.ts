@@ -2,21 +2,28 @@
 import { cookies } from "next/headers";
 import { cache } from "react";
 
-export const fetchReq = async (url: string, attachToken = true) => {
-  const cookieStorage = await cookies();
-  const token = cookieStorage.get("token")?.value;
-  if (attachToken && !token) {
-    return { data: null, error: "JWT token not present" };
-  }
+export const fetchReq = async (
+  url: string,
+  attachToken = true,
+  revalidate?: number,
+  tag?: string,
+) => {
   let res: Response;
-
   const finalUrl = url.includes("://") ? url : `${process.env.NEXT_PUBLIC_API_URL}${url}`;
   try {
-    res = await fetch(finalUrl, {
-      method: "GET",
-      credentials: "include",
-      headers: attachToken && token ? { Cookie: `token=${token}` } : undefined,
-    });
+    const fetchOptions: RequestInit = { method: "GET" };
+    if (revalidate !== undefined) {
+      if (!tag) return { data: null, error: "Tag is required to revalidate" };
+      if (attachToken) return { data: null, error: "Don't cache token bearing requests" };
+      fetchOptions.next = { revalidate, tags: [tag] };
+    }
+    if (attachToken) {
+      const cookieStorage = await cookies();
+      const token = cookieStorage.get("token")?.value;
+      if (!token) return { data: null, error: "JWT token not present" };
+      fetchOptions.headers = { Cookie: `token=${token}` };
+    }
+    res = await fetch(finalUrl, fetchOptions);
   } catch (error) {
     console.log(error);
     return { data: null, error: "Unable to connect to the server." };
@@ -111,12 +118,18 @@ export const postReq = async (url: string, body: any, isPut = false, attachToken
 export const validateUser = cache(async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-  if (!token) return console.error("JWT token not present");
+  if (!token) {
+    console.error("JWT token not present");
+    return null;
+  }
 
   const checkUrl = "/api/users/me";
   const { data, error } = await fetchReq(checkUrl, true);
 
-  if (error || !data) return console.error(error);
+  if (error || !data) {
+    console.error(error);
+    return null;
+  }
 
   if (data.success) return data.user;
   return null;
