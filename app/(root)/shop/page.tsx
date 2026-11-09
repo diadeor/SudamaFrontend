@@ -10,8 +10,8 @@ const Shop = async () => {
   const { products }: { products: Product[] } = data;
 
   return (
-    <section className="max-w-7xl mx-auto">
-      <header className="h-60 mb-8 overflow-hidden relative flex flex-col justify-center">
+    <section className="max-w-304 mx-auto">
+      <header className="h-50 mb-5 overflow-hidden relative flex flex-col justify-center">
         <div className="absolute -top-2 -right-3 opacity-50 pointer-events-none">
           <Image src={"/top-right.png"} width={150} height={500} alt="okay" />
         </div>
@@ -26,6 +26,7 @@ const Shop = async () => {
           ferns to sun-loving succulents, find your next green companion here
         </p>
       </header>
+      <hr className="mb-5 border border-secondary/40" />
       <div className="flex flex-col lg:flex-row gap-8">
         {/* <!-- Sidebar Filters --> */}
         <aside className="w-full lg:w-64 shrink-0 space-y-10">
@@ -38,7 +39,7 @@ const Shop = async () => {
             })}
           </div>
 
-          <div className="mt-15 flex justify-center">
+          <div className="mt-15 mb-5 flex justify-center">
             <LargeBtn link="ok">Expand Archive</LargeBtn>
           </div>
         </div>

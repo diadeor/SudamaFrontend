@@ -16,7 +16,7 @@ import { fetchReq } from "@/components/functions/request";
 import { Product } from "@/components/functions/types";
 
 export default async function Home() {
-  const { data, error } = await fetchReq("/api/products", false);
+  const { data, error } = await fetchReq("/api/products", false, 60, "products");
   const { products }: { products: Product[] } = data;
   return (
     <div className="home min-h-[calc(100svh-100px)]">
@@ -62,7 +62,7 @@ export default async function Home() {
       </Section>
 
       <div className=" flex flex-row items-center justify-center py-5">
-        <div className="relative w-full h-80 lg:h-100 max-w-7xl">
+        <div className="relative w-full h-75 lg:h-95 max-w-304">
           <CircGallery />
         </div>
       </div>

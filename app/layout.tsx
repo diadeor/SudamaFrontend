@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Manrope, Newsreader, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { validateUser } from "@/components/functions/request";
+import AuthProvider from "@/components/providers/AuthContext";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -23,11 +25,12 @@ export const metadata: Metadata = {
   description: "Curating living sculptures that breathe life into your architectural sanctuary.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await validateUser();
   return (
     <html
       lang="en"
@@ -36,9 +39,9 @@ export default function RootLayout({
     >
       <body
         suppressHydrationWarning={true}
-        className="text-on-surface bg-background selection:bg-primary-fixed selection:text-on-primary-fixed font-label antialiased"
+        className="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed font-label antialiased"
       >
-        {children}
+        <AuthProvider userData={user}>{children}</AuthProvider>
       </body>
     </html>
   );
