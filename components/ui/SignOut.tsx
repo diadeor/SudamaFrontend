@@ -1,14 +1,19 @@
 "use client";
 import { LogOut } from "lucide-react";
-import { useState } from "react";
 import { clientGet } from "../functions/clientReq";
+import { redirect } from "next/navigation";
+import { useAuth } from "../providers/AuthContext";
 
 const SignOutButton = () => {
   const signOutURL = "/api/auth/logout";
+  const { user, setUser } = useAuth();
 
   const handleSignOut = async () => {
     const { data, error } = await clientGet(signOutURL);
-    console.log(data);
+    if (!error && data.success) {
+      setUser(null);
+      redirect("/auth?mode=login");
+    }
   };
   return (
     <button

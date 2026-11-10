@@ -3,7 +3,7 @@ import Link from "next/link";
 import { leftSideClass } from "../layout";
 import { clientPost } from "@/components/functions/clientReq";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { GoogleLogin } from "@react-oauth/google";
 import { inputClass } from "@/components/ui/css";
 import PasswordInput from "@/components/ui/PasswordInput";
@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Mail, ArrowRight, IdCard } from "lucide-react";
 import AdminPopup from "@/components/Admin/Modules/AdminMsgPopup";
 import { Info } from "@/components/functions/types";
+import { useAuth } from "@/components/providers/AuthContext";
 
 const Login = () => {
   const [name, setName] = useState("");
@@ -20,20 +21,34 @@ const Login = () => {
   const loginReq = clientPost("/api/auth/login");
   const signUpReq = clientPost("/api/auth/register");
   const googleLoginReq = clientPost("/api/auth/google");
-  // const [isLoginPage, setIsLoginPage] = useState(true);
   const params = useSearchParams();
   const isLoginPage = params.get("mode") === "login" ? true : false;
+  const { user, setUser } = useAuth();
+  const router = useRouter();
 
-  const loginUser = async (e: any) => {
+  useEffect(() => {
+    if (user) {
+      redirect("/");
+    }
+  }, [user]);
+
+  const authenticateUser = async (e: any) => {
     e.preventDefault();
-    setMessage({ type: "loading", message: "Logging In..." });
+    setMessage({ type: "loading", message: isLoginPage ? "Logging In..." : "Signing Up..." });
     const reqBody = {
+      name: "",
       email,
       pass: password,
     };
-    const { data, error } = await loginReq(reqBody);
+    if (!isLoginPage) {
+      reqBody.name = name;
+    }
+    const { data, error } = isLoginPage ? await loginReq(reqBody) : await signUpReq(reqBody);
     if (!error && data.success) {
-      setMessage({ type: "success", message: data.message });
+      // setMessage({ type: "success", message: data.message });
+      setUser(data.user);
+      router.refresh();
+      router.push("/");
     } else {
       setMessage({ type: "error", message: error });
     }
@@ -44,6 +59,10 @@ const Login = () => {
     const { data, error } = await googleLoginReq({ token });
     if (error) {
       setMessage({ type: "error", message: error });
+    } else {
+      setUser(data.user);
+      router.refresh();
+      router.push("/");
     }
   };
   const googleLoginError = async () => {
@@ -55,7 +74,12 @@ const Login = () => {
       <div className="max-w-md w-full mx-auto">
         {message.message && <AdminPopup info={message} setInfo={setMessage} />}
         <div className="bg-surface-container-lowest rounded-3xl p-8 sm:p-10 shadow-[0_32px_64px_rgba(22,29,26,0.04)] relative">
-          <form action="#" className="space-y-6" method="POST" onSubmit={(e) => loginUser(e)}>
+          <form
+            action="#"
+            className="space-y-6"
+            method="POST"
+            onSubmit={(e) => authenticateUser(e)}
+          >
             <div className="mb-10">
               <div className="logo flex flex-col items-center gap-1 mb-3">
                 <div className="logo w-62 flex flex-col items-center">
@@ -75,7 +99,7 @@ const Login = () => {
             {!isLoginPage && (
               <div>
                 <label
-                  className="block font-label text-xs uppercase tracking-[0.05em] text-on-surface-variant font-semibold mb-2"
+                  className="block font-label text-xs uppercase tracking-wider text-on-surface-variant font-semibold mb-2"
                   htmlFor="name"
                 >
                   Full Name
@@ -101,7 +125,7 @@ const Login = () => {
             {/* Email Input */}
             <div>
               <label
-                className="block font-label text-xs uppercase tracking-[0.05em] text-on-surface-variant font-semibold mb-2"
+                className="block font-label text-xs uppercase tracking-wider text-on-surface-variant font-semibold mb-2"
                 htmlFor="email"
               >
                 Email Address
@@ -127,7 +151,7 @@ const Login = () => {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label
-                  className="block font-label text-xs uppercase tracking-[0.05em] text-on-surface-variant font-semibold"
+                  className="block font-label text-xs uppercase tracking-wider text-on-surface-variant font-semibold"
                   htmlFor="password"
                 >
                   Password
@@ -135,7 +159,7 @@ const Login = () => {
                 {isLoginPage && (
                   <div className="text-sm">
                     <a
-                      className="font-label text-xs uppercase tracking-[0.05em] text-primary hover:text-primary-container font-semibold transition-colors"
+                      className="font-label text-xs uppercase tracking-wider text-primary hover:text-primary-container font-semibold transition-colors"
                       href="#"
                     >
                       Forgot password?
