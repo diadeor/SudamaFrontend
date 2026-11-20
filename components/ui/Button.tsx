@@ -9,6 +9,7 @@ interface Button {
   onClickFunc?: Function;
   form?: string;
   submit?: boolean;
+  isDisabled?: boolean;
 }
 
 export const LargeBtn = ({
@@ -18,6 +19,7 @@ export const LargeBtn = ({
   onClickFunc,
   form,
   submit = false,
+  isDisabled = false,
 }: Button) => {
   const buttonClass =
     "w-full px-5 py-3 cursor-pointer hover:scale-95 transition-all rounded-xl font-bold bg-primary text-on-primary text-md flex flex-row items-center justify-center gap-2";
@@ -27,7 +29,7 @@ export const LargeBtn = ({
         form={form}
         type={submit ? "submit" : "button"}
         onClick={() => (onClickFunc ? onClickFunc() : null)}
-        className={` ${extraClass} ${buttonClass}`}
+        className={` ${extraClass} ${buttonClass} ${isDisabled ?? "bg-outline-variant"}`}
       >
         {children}
       </button>
