@@ -12,21 +12,45 @@ export interface User {
 export interface Product {
   _id: string;
   name: string;
-  category: string;
+  nickname: string;
+  primaryCategory: string;
+  categories: string[];
   thumbnail: string;
   images: string[];
+  status: "active" | "draft";
   description: string;
-  badge: string;
+  badge: "sale" | "featured" | "new" | "none";
   regularPrice: number;
   salePrice: number;
+  bargainPrice: number;
   stock: number;
+  pet_safe: boolean;
+  pot_included: boolean;
+  slug: string;
+  care_level: "beginner" | "moderate" | "expert";
+  traits: [
+    | "air_purifying"
+    | "low_maintenance"
+    | "fragrant"
+    | "fast_growing"
+    | "rare"
+    | "medicinal"
+    | "none",
+  ];
+  placement: [
+    "living_room" | "bedroom" | "bathroom" | "balcony" | "office" | "garden" | "entrance",
+  ];
+  light: ["low" | "indirect" | "partial_sun" | "full_sun"];
+  season: "summer" | "winter" | "monsoon" | "all";
 }
 
 export interface Category {
   _id: string;
   name: string;
   thumbnail: string;
-  description: string;
+  group: "Plants" | "Supplies";
+  order: number;
+  slug: string;
 }
 
 export interface Orders {

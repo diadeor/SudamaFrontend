@@ -1,13 +1,16 @@
 import { LargeBtn } from "@/components/ui/Button";
-import ShopCard from "@/components/ui/ShopCard";
 import Image from "next/image";
 import { ShopFilters } from "@/components/ui/ShopFilters";
 import { fetchReq } from "@/components/functions/request";
-import { Product } from "@/components/functions/types";
+import { Category, Product } from "@/components/functions/types";
+import MultipleProducts from "@/components/layout/Prods";
+import FulLShop from "@/components/layout/FullShop";
 
 const Shop = async () => {
-  const { data, error } = await fetchReq("/api/products", false);
+  const { data } = await fetchReq("/api/products", false);
+  const { data: cats } = await fetchReq("/api/categories", false);
   const { products }: { products: Product[] } = data;
+  const { categories }: { categories: Category[] } = cats;
 
   return (
     <section className="max-w-304 mx-auto">
@@ -27,23 +30,7 @@ const Shop = async () => {
         </p>
       </header>
       <hr className="mb-5 border border-secondary/40" />
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* <!-- Sidebar Filters --> */}
-        <aside className="w-full lg:w-64 shrink-0 space-y-10">
-          <ShopFilters />
-        </aside>
-        <div className="grow">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-5">
-            {products.map((item, index) => {
-              return <ShopCard data={item} key={index} />;
-            })}
-          </div>
-
-          <div className="mt-15 mb-5 flex justify-center">
-            <LargeBtn link="ok">Expand Archive</LargeBtn>
-          </div>
-        </div>
-      </div>
+      <FulLShop prods={products} cats={categories} />
     </section>
   );
 };
