@@ -8,8 +8,8 @@ import AdminNavigation from "@/components/Admin/Modules/AdminNav";
 const AdminLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <div className="min-h-screen bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed antialiased flex">
-      <aside className="hidden md:flex h-svh w-40 lg:w-64 fixed left-0 top-0 bg-surface-container-low flex-col p-3 lg:p-5 border-r border-outline-variant/15 z-40">
-        <div className="mb-10 text-center lg:text-left">
+      <aside className="hidden md:flex h-svh w-64 fixed left-0 top-0 bg-surface-container-low flex-col p-5 border-r border-outline-variant/15 z-40">
+        <div className="mb-10 text-left">
           <h1 className="text-xl font-extrabold text-primary font-headline tracking-tight">
             Sudama
           </h1>
@@ -22,7 +22,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
         </ul>
       </aside>
       {/* Main content area */}
-      <main className="flex-1 flex flex-col w-full md:ml-40 lg:ml-64">
+      <main className="flex-1 flex flex-col w-full md:ml-64">
         {/* Mobile header */}
         <header className="md:hidden fixed border-b-2 border-b-outline-variant/50 top-0 w-full z-50 bg-surface/80 dark:bg-primary/80 backdrop-blur-xl">
           <div className="flex justify-between items-center px-6 py-3.5 w-full">
@@ -38,7 +38,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
           </div>
         </header>
         {/* Desktop header */}
-        <header className="hidden md:flex fixed border-b-2 border-outline-variant/50 flex-row items-center justify-between bg-surface-bright z-40 top-0 h-17 right-0 left-40 lg:left-64 p-7">
+        <header className="hidden md:flex fixed border-b-2 border-outline-variant/50 flex-row items-center justify-between bg-surface-bright z-40 top-0 h-17 right-0 left-64 p-7">
           <h2 className="uppercase tracking-tight text-headline text-xl lg:text-2xl text-primary font-bold">
             Dashboard
           </h2>

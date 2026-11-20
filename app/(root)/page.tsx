@@ -14,6 +14,7 @@ import ShopCard from "@/components/ui/ShopCard";
 import { CircGallery } from "@/components/home/Animations";
 import { fetchReq } from "@/components/functions/request";
 import { Product } from "@/components/functions/types";
+import MultipleProducts from "@/components/layout/Prods";
 
 export default async function Home() {
   const { data, error } = await fetchReq("/api/products", false, 60, "products");
@@ -32,12 +33,7 @@ export default async function Home() {
         </div>
       </Section>
       <Section title="Seasonal Highlights" subTitle="Specimens" linkText="View More">
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-5">
-          {products &&
-            products.map((item, index) => {
-              return <ShopCard data={item} key={index} />;
-            })}
-        </div>
+        <MultipleProducts prods={products} />
       </Section>
 
       <Section>
