@@ -1,17 +1,22 @@
 "use client";
 import { useState } from "react";
 import { Search } from "lucide-react";
-import { Product } from "../functions/types";
 import Image from "next/image";
 import Link from "next/link";
+import { SearchItem } from "../functions/types";
 
-const SearchBox = ({ prods }: { prods: Product[] }) => {
-  const [result, setResult] = useState<Array<Product>>([]);
+const SearchBox = ({ prods }: { prods: SearchItem[] }) => {
+  const [result, setResult] = useState<Array<SearchItem>>([]);
   const [query, setQuery] = useState<string>("");
   const filter = (value: string) => {
     setQuery(value);
     setResult(
-      prods.filter((item) => item.name.toLowerCase().slice(0, value.length) == value.toLowerCase()),
+      prods.filter((item) => {
+        return (
+          item.name.toLowerCase().slice(0, value.length) == value.toLowerCase() ||
+          item.nickname?.toLowerCase().slice(0, value.length) == value.toLowerCase()
+        );
+      }),
     );
   };
   return (
@@ -32,11 +37,11 @@ const SearchBox = ({ prods }: { prods: Product[] }) => {
         >
           {result.length ? (
             result.slice(0, 5).map((item, idx) => {
-              const { _id, name, thumbnail, category, regularPrice } = item;
+              const { slug, name, thumbnail, primaryCategory } = item;
               return (
                 <li key={idx} role="option">
                   <Link
-                    href={`/shop/${_id}`}
+                    href={`/shop/${slug}`}
                     onClick={(_) => setQuery("")}
                     className="flex items-center gap-3 rounded-xl p-2 hover:bg-surface-container-low focus-visible:bg-surface-container-low"
                   >
@@ -49,9 +54,9 @@ const SearchBox = ({ prods }: { prods: Product[] }) => {
                     />
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-semibold text-on-surface">{name}</p>
-                      <p className="text-sm text-on-surface-variant">{category}</p>
+                      <p className="text-sm text-on-surface-variant">{primaryCategory}</p>
                     </div>
-                    <span className="text-sm font-semibold text-primary">Rs. {regularPrice}</span>
+                    {/* <span className="text-sm font-semibold text-primary">Rs. {regularPrice}</span> */}
                   </Link>
                 </li>
               );
