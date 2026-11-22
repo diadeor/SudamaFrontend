@@ -3,8 +3,6 @@ import { User } from "@/components/functions/types";
 import { validateUser } from "@/components/functions/request";
 import { redirect } from "next/navigation";
 import { ArrowRight, ShieldUser, UserRound, UserRoundKey } from "lucide-react";
-import { adminFormInputClass } from "@/components/ui/css";
-import PurchaseCard from "@/components/ui/PurchaseCard";
 import { UserUpdateForm, UserPasswordForm } from "@/components/Admin/Actions/UserDetailsForm";
 import SignOutButton from "@/components/ui/SignOut";
 import Link from "next/link";
@@ -15,18 +13,20 @@ const Profile = async () => {
   const { id, name } = user;
   const { role } = user;
   const isAdmin = role === "admin";
+  const sectionCSS =
+    "bg-surface-container-lowest min-w-85 p-5 rounded-2xl shadow-sm w-1/2 flex-1 grow flex flex-col";
 
   return (
-    <main className="flex-1 w-full mx-auto flex flex-col gap-8 max-w-304 mb-5">
+    <main className="flex-1 w-full mx-auto flex flex-col gap-5 max-w-304 mb-5">
       {/* Header Section */}
-      <header className="w-full h-70 md:h-60 overflow-hidden text-center md:text-left relative flex flex-col justify-center">
+      <header className="w-full h-75 md:h-60 overflow-hidden text-center md:text-left relative flex flex-col justify-center">
         <div className="absolute -top-2 -right-3 opacity-50 pointer-events-none">
           <Image src={"/top-right.png"} width={150} height={500} alt="okay" />
         </div>
-        <div className="flex flex-col md:flex-row items-center gap-6 mb-6">
+        <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 mb-0">
           <img
             alt="user profile picture"
-            className="w-20 h-20 rounded-full object-cover shadow-sm"
+            className="w-30 h-30 rounded-full object-cover shadow-sm md:h-40 md:w-40"
             src={`https://ui-avatars.com/api/?name=${name.replace(" ", "+")}&background=ccead3&color=173021`}
           />
           <div className="flex flex-col gap-3">
@@ -44,45 +44,31 @@ const Profile = async () => {
             ) : (
               <span className="font-bold">User</span>
             )}
-          </div>
-        </div>
-        <p className="text-lg text-on-surface-variant max-w-2xl font-body leading-relaxed mx-auto md:mx-0">
-          Manage your purchased plants, view order history, and update your account preferences.
-        </p>
-      </header>
-
-      {/* My Collection (Main Feature) */}
-      <div className="grid gap-8 grid-cols-1 xl:grid-cols-2">
-        {/* Account Settings Section */}
-        <section className="w-full bg-surface-container-lowest rounded-2xl p-5 md:p-7 pb-7 shadow-sm">
-          <div className="mb-4 border-b border-outline-variant/20 pb-4">
-            <h2 className="text-2xl font-display text-primary font-bold">Account Settings</h2>
-            <p className="text-on-surface-variant text-sm mt-1">
-              Manage your personal information and security
+            <p className="text-lg text-on-surface-variant max-w-2xl font-body leading-relaxed mx-auto md:mx-0">
+              Manage your account.
             </p>
           </div>
+        </div>
+      </header>
 
-          <div className=" grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-6">
-            {/* Personal Information */}
-            <div>
-              <h3 className="text-lg font-bold text-primary mb-6 flex items-center gap-2">
-                <UserRound />
-                Personal Information
-              </h3>
-              <UserUpdateForm initialData={user} />
-            </div>
+      <hr className="border border-secondary/40" />
 
-            {/* Security */}
-            <div>
-              <h3 className="text-lg font-bold text-primary mb-6 flex items-center gap-2">
-                <UserRoundKey />
-                Security
-              </h3>
-              <UserPasswordForm />
-            </div>
-          </div>
-        </section>
-      </div>
+      <section className="w-full h-full flex flex-row flex-wrap items-center justify-between gap-5 pb-7">
+        <div className={sectionCSS}>
+          <h2 className="text-xl pb-4 mb-4 border-b-2 border-outline-variant/20 font-bold text-primary flex items-center gap-2">
+            <UserRound size={`1.1em`} />
+            Personal Information
+          </h2>
+          <UserUpdateForm initialData={user} />
+        </div>
+        <div className={sectionCSS}>
+          <h3 className="text-xl pb-4 mb-4 border-b-2 border-outline-variant/20 font-bold text-primary flex items-center gap-2">
+            <UserRoundKey size={`1.1em`} />
+            Security
+          </h3>
+          <UserPasswordForm />
+        </div>
+      </section>
       <SignOutButton />
     </main>
   );

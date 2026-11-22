@@ -10,15 +10,14 @@ import {
   ShieldCheck,
   Flower2,
 } from "lucide-react";
-import ShopCard from "@/components/ui/ShopCard";
 import { CircGallery } from "@/components/home/Animations";
-import { fetchReq } from "@/components/functions/request";
-import { Product } from "@/components/functions/types";
+import { Category, Product } from "@/components/functions/types";
 import MultipleProducts from "@/components/layout/Prods";
+import { getProducts, prodForCard, getCategories } from "@/lib/helpers";
 
 export default async function Home() {
-  const { data, error } = await fetchReq("/api/products", false, 60, "products");
-  const { products }: { products: Product[] } = data;
+  const products: Product[] | null = await getProducts();
+  const categories: Category[] | null = await getCategories();
   return (
     <div className="home min-h-[calc(100svh-100px)]">
       <Hero />
@@ -32,8 +31,11 @@ export default async function Home() {
           </div>
         </div>
       </Section>
-      <Section title="Seasonal Highlights" subTitle="Specimens" linkText="View More">
-        <MultipleProducts prods={products} />
+      <Section title="Featured Plants" subTitle="Specimens" linkText="View all plants">
+        <MultipleProducts prods={products?.map(prodForCard)} categories={categories} limit={6} />
+      </Section>
+      <Section title="Seasonal Highlights" subTitle="Specimens" linkText="View all plants">
+        <MultipleProducts prods={products?.map(prodForCard)} categories={categories} limit={6} />
       </Section>
 
       <Section>
