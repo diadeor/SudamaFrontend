@@ -1,18 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Search, ShoppingBag, TextAlignJustify, UserRound } from "lucide-react";
-import { validateUser, fetchReq } from "../functions/request";
+import { UserRound } from "lucide-react";
+import { validateUser } from "../functions/request";
 import MobileMenu from "./MobileMenu";
 import { Product } from "../functions/types";
 import DesktopMenu from "./DesktopMenu";
 import SearchBox from "./SearchBox";
+import { getProducts, prodForSearch } from "@/lib/helpers";
 
 export default async function Navbar() {
   let loggedIn = false;
   const user = await validateUser();
   if (user) loggedIn = true;
-  const { data, error } = await fetchReq("/api/products", false, 60, "products");
-  const { products }: { products: Product[] } = data;
+  const products: Product[] | null = await getProducts();
 
   return (
     <header className="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-sm">
@@ -23,8 +23,8 @@ export default async function Navbar() {
 
         <DesktopMenu css="hidden font-headline text-md min-[54rem]:flex gap-3 items-center font-semibold tracking-wide" />
 
-        <div className="flex items-center gap-3 text-primary">
-          <SearchBox prods={products} />
+        <div className="flex flex-row items-center gap-3 text-primary">
+          <SearchBox prods={products ? products.map(prodForSearch) : []} />
           {!loggedIn ? (
             <Link
               href="/auth?mode=login"
