@@ -1,61 +1,71 @@
-import { BadgePlus } from "lucide-react";
-import { SmallBtn } from "./Button";
 import Image from "next/image";
 import Link from "next/link";
-import { Product } from "../functions/types";
+import { ProductCard } from "../functions/types";
+import { badgeStyles } from "./css";
 
-const ShopCard = ({ data }: { data: Product }) => {
-  const { _id, name, category, salePrice, regularPrice, thumbnail, badge } = data;
-  const badgeCss =
-    "absolute tracking-widest font-semibold backdrop-blur-lg top-3 right-3 p-1 rounded-md text-[12px] px-2 uppercase";
-  const badgeBG =
-    badge === "new"
-      ? "bg-blue-100/70"
-      : badge === "featured"
-        ? "bg-yellow-100/70"
-        : "bg-green-100/70";
+const pill =
+  "absolute right-3 top-3 rounded-lg px-2 py-0.5 text-[12px] font-bold uppercase tracking-wider";
+const fmt = (n: number) => n.toLocaleString("en-IN");
+
+const ShopCard = ({ data, cat }: { data: ProductCard; cat?: string }) => {
+  const { slug, name, salePrice, regularPrice, thumbnail, badge, stock } = data;
+
+  const inStock = stock > 0;
+  const original = regularPrice != null && regularPrice > salePrice ? regularPrice : null;
+  const showBadge = badge && badge !== "none";
+  const discount =
+    regularPrice && regularPrice > salePrice ? Math.round((1 - salePrice / regularPrice) * 100) : 0;
+
   return (
-    <div className="group max-w-55">
-      <Link href={`/shop/${_id}`}>
-        <div className="relative bg-surface-container-lowest rounded-[20px] overflow-hidden mb-3 transition-transform duration-500 group-hover:-translate-y-3">
-          <Image
-            src={thumbnail}
-            alt="Plant specimen"
-            width={400}
-            height={500}
-            className="w-full bg-on-primary-container/80 aspect-4/5 object-cover mix-blend-multiply opacity-95 group-hover:opacity-100 transition-opacity"
-          />
-          <p className={`${badgeCss} ${badgeBG}`}>{badge}</p>
-        </div>
-      </Link>
-      <div className="px-2">
-        <div className="flex flex-col justify-between items-start mb-1 ">
-          <Link href={`/shop/${_id}`}>
-            <h3 className="text-md font-bold text-primary">{name}</h3>
-            <p className="text-[0.65rem] uppercase tracking-widest text-outline font-bold mb-1">
-              {category}
-            </p>
-          </Link>
-          <div className="third-row flex flex-col gap-2 justify-between w-full ">
-            {salePrice && (
-              <span className="text-md font-medium text-secondary ">
-                Rs. {salePrice} <sub className="line-through text-sm">{regularPrice}</sub>
-              </span>
-            )}
-            {!salePrice && (
-              <span className="text-lg font-medium text-secondary">Rs. {regularPrice}</span>
-            )}
-            <SmallBtn
-              link="okay"
-              extraClass="hover:animate-bounce justify-center ease-in-out text-sm font-bold tracking-widest"
-            >
-              <BadgePlus size={`1.3em`} />
-              Add to cart
-            </SmallBtn>
-          </div>
-        </div>
+    <article className="group relative flex h-full min-w-0 flex-col">
+      <div className="relative mb-3 aspect-square overflow-hidden rounded-[20px] bg-surface-container transition-transform duration-300 motion-safe:group-hover:-translate-y-2">
+        <Image
+          src={thumbnail}
+          alt={name}
+          fill
+          sizes="(min-width: 1280px) 16vw, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+          className={`object-cover bg-on-secondary-container/40 ${inStock ? "" : "opacity-70 grayscale"}`}
+        />
+        {!inStock ? (
+          <span className={`${pill} bg-error-container text-on-error-container`}>Out of stock</span>
+        ) : (
+          showBadge && (
+            <span className={`${pill} ${badgeStyles[badge] ?? "bg-surface-container-high"}`}>
+              {badge}
+            </span>
+          )
+        )}
+        {discount > 0 ? (
+          <span className="absolute bottom-3 left-3 rounded-lg text-xs px-3 py-1 font-bold bg-tertiary-fixed text-on-tertiary-fixed">
+            {discount}% off
+          </span>
+        ) : (
+          <></>
+        )}
       </div>
-    </div>
+
+      <div className="flex flex-1 flex-col px-2">
+        <h3 className="line-clamp-2 font-bold leading-tight text-primary">
+          <Link
+            href={`/shop/${slug}`}
+            className="outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-primary"
+          >
+            {name}
+          </Link>
+        </h3>
+
+        {cat && (
+          <p className="mt-0.5 text-[0.65rem] font-bold uppercase tracking-widest text-on-surface-variant">
+            {cat}
+          </p>
+        )}
+
+        <p className="mt-auto flex flex-wrap items-baseline gap-x-1 pt-2">
+          <span className="font-semibold text-on-secondary-fixed">Rs. {fmt(salePrice)}</span>
+          {original && <s className="text-sm text-on-surface-variant">Rs. {fmt(original)}</s>}
+        </p>
+      </div>
+    </article>
   );
 };
 

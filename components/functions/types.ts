@@ -12,36 +12,60 @@ export interface User {
 export interface Product {
   _id: string;
   name: string;
-  nickname: string;
+  nickname?: string;
   primaryCategory: string;
   categories: string[];
   thumbnail: string;
-  images: string[];
+  images?: string[];
   status: "active" | "draft";
-  description: string;
+  description?: string;
   badge: "sale" | "featured" | "new" | "none";
-  regularPrice: number;
+  regularPrice?: number;
   salePrice: number;
-  bargainPrice: number;
+  bargainPrice?: number;
   stock: number;
-  pet_safe: boolean;
-  pot_included: boolean;
   slug: string;
-  care_level: "beginner" | "moderate" | "expert";
-  traits: [
+  pet_safe?: boolean;
+  pot_included?: boolean;
+  care_level?: "beginner" | "moderate" | "expert";
+  traits?: (
     | "air_purifying"
     | "low_maintenance"
     | "fragrant"
     | "fast_growing"
     | "rare"
     | "medicinal"
-    | "none",
-  ];
-  placement: [
-    "living_room" | "bedroom" | "bathroom" | "balcony" | "office" | "garden" | "entrance",
-  ];
-  light: ["low" | "indirect" | "partial_sun" | "full_sun"];
-  season: "summer" | "winter" | "monsoon" | "all";
+    | "none"
+  )[];
+  placement?: (
+    | "living_room"
+    | "bedroom"
+    | "bathroom"
+    | "balcony"
+    | "office"
+    | "garden"
+    | "entrance"
+  )[];
+  light?: ("low" | "indirect" | "partial_sun" | "full_sun")[];
+  season?: "summer" | "winter" | "monsoon" | "all";
+}
+
+export interface SearchItem {
+  name: string;
+  nickname?: string;
+  primaryCategory: string;
+  slug: string;
+  thumbnail: string;
+}
+export interface ProductCard {
+  name: string;
+  primaryCategory: string;
+  slug: string;
+  thumbnail: string;
+  badge: string;
+  regularPrice?: number;
+  salePrice: number;
+  stock: number;
 }
 
 export interface Category {
