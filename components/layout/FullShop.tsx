@@ -8,6 +8,7 @@ import { Leaf } from "lucide-react";
 
 const FulLShop = ({ prods, cats }: { prods: Product[]; cats: Category[] }) => {
   const [filtered, setFiltered] = useState<Product[]>(prods);
+  const [limit, setLimit] = useState(1);
   return (
     prods && (
       <div className="flex flex-col lg:flex-row gap-5">
@@ -16,7 +17,7 @@ const FulLShop = ({ prods, cats }: { prods: Product[]; cats: Category[] }) => {
         </aside>
         <div className="grow">
           {filtered.length ? (
-            <MultipleProducts prods={filtered} />
+            <MultipleProducts prods={filtered} categories={cats} limit={limit * 4} />
           ) : (
             <div
               role="status"
@@ -31,7 +32,7 @@ const FulLShop = ({ prods, cats }: { prods: Product[]; cats: Category[] }) => {
           )}
           {filtered.length ? (
             <div className="mt-10 mb-5 flex justify-center">
-              <LargeBtn link="ok">Expand Archive</LargeBtn>
+              <LargeBtn onClickFunc={() => setLimit((prev) => prev + 1)}>Expand Archive</LargeBtn>
             </div>
           ) : (
             ""

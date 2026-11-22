@@ -7,11 +7,11 @@ export const adminItem =
   "relative flex md:grid md:gap-0 px-4 py-3 bg-surface-container-low/40 rounded-xl border border-outline-variant/20 hover:border-outline-variant/70 transition-all";
 
 export const adminItem2 =
-  "relative flex md:gap-0 px-3 py-3 bg-surface-container-low/40 rounded-xl border border-outline-variant/20 hover:border-outline-variant/70 transition-all";
+  "relative flex md:gap-0 p-3 bg-surface-container-low/40 hover:bg-surface-container-low/80 rounded-2xl border border-outline-variant/20 hover:border-outline-variant/80 transition-all";
 
 const hoverClass =
   "hover:scale-105 hover:bg-surface-container-lowest/40 transition-all hover:text-primary/75";
-export const tabClass = `flex-1 py-2 lg:py-3 rounded-lg lg:rounded-xl px-2 text-sm lg:text-[16px] lg:px-4 flex flex-row items-center gap-2 ${hoverClass}`;
+export const tabClass = `flex-1 py-3 rounded-xl px-4 text-[15px] flex flex-row items-center gap-1 ${hoverClass}`;
 
 export const customScrollbar =
   "[&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-stone-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-surface-tint/50 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500";
@@ -21,3 +21,9 @@ export const inputClass =
 
 export const adminFormInputClass =
   "w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-primary placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all";
+
+export const badgeStyles: Record<string, string> = {
+  sale: "bg-green-200 text-green-950",
+  featured: "bg-yellow-200 text-yellow-950",
+  new: "bg-blue-200 text-blue-950",
+};
