@@ -1,16 +1,10 @@
-import { LargeBtn } from "@/components/ui/Button";
 import Image from "next/image";
-import { ShopFilters } from "@/components/ui/ShopFilters";
-import { fetchReq } from "@/components/functions/request";
-import { Category, Product } from "@/components/functions/types";
-import MultipleProducts from "@/components/layout/Prods";
 import FulLShop from "@/components/layout/FullShop";
+import { getProducts, getCategories } from "@/lib/helpers";
 
 const Shop = async () => {
-  const { data } = await fetchReq("/api/products", false);
-  const { data: cats } = await fetchReq("/api/categories", false);
-  const { products }: { products: Product[] } = data;
-  const { categories }: { categories: Category[] } = cats;
+  const products = await getProducts();
+  const categories = await getCategories();
 
   return (
     <section className="max-w-304 mx-auto">
@@ -30,7 +24,7 @@ const Shop = async () => {
         </p>
       </header>
       <hr className="mb-5 border border-secondary/40" />
-      <FulLShop prods={products} cats={categories} />
+      {products && categories && <FulLShop prods={products} cats={categories} />}
     </section>
   );
 };

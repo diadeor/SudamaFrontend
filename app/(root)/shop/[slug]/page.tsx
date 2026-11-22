@@ -1,24 +1,33 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, Phone } from "lucide-react";
+import { ChevronRight, MapPin, Phone } from "lucide-react";
 import ProductGallery from "@/components/ui/ProductGallery";
 import InquireButton from "@/components/ui/InquireButton";
-import ShopCard from "@/components/ui/ShopCard";
-import { getProduct } from "@/lib/products";
+import PlantDetails from "@/components/layout/PlantDetails";
+import RelatedProducts from "@/components/ui/RelatedProducts";
+import { getCategories, getProducts, slugToName } from "@/lib/helpers";
+import { getRelatedProducts, formatPrice, humanize } from "@/lib/helpers";
 import { Product } from "@/components/functions/types";
+import { badgeStyles } from "@/components/ui/css";
+import InPerson from "@/components/ui/InPerson";
 
 type Props = { params: Promise<{ slug: string }> };
 
-const lightLabels: Record<string, string> = {
-  low: "Low indirect light",
-  "bright-indirect": "Bright indirect light",
-  "full-sun": "Full sun",
+const BADGE_LABELS: Record<string, string> = {
+  new: "New",
+  featured: "Featured",
+  sale: "On sale",
 };
+
+const MAPS_URL = "https://maps.app.goo.gl/KjV8yzkFYK2vLeoP6";
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const product = await getProduct(slug);
+  const products: Product[] | null = await getProducts();
+  if (!products) return {};
+  const product = products.find((p) => p.slug === slug);
   if (!product) return {};
+
   return {
     title: `${product.name} | Sudama Plant Store`,
     description: product.description?.slice(0, 150),
@@ -28,14 +37,16 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = await getProduct(slug);
+  const products = await getProducts();
+  const cats = await getCategories();
+  const product: Product | undefined = products?.find((p) => p.slug === slug);
   if (!product) notFound();
 
   const {
     name,
+    nickname,
     primaryCategory,
     thumbnail,
-    images = [],
     badge,
     stock,
     regularPrice,
@@ -43,131 +54,147 @@ export default async function ProductPage({ params }: Props) {
     description,
   } = product;
 
-  const gallery = [thumbnail, ...images.filter((i) => i !== thumbnail)];
+  const related = await getRelatedProducts(product, products, 4);
+
+  const gallery = [thumbnail];
   const inStock = stock > 0;
-  const discount = regularPrice > salePrice ? Math.round((1 - salePrice / regularPrice) * 100) : 0;
-
-  // New filter fields are optional; rows with no value are hidden
-  // const facts = [
-  //   { label: "Light", value: product.light?.map((l) => lightLabels[l] ?? l).join(", ") },
-  //   { label: "Placement", value: product.placement?.join(", ") },
-  //   { label: "Blooms", value: product.bloomSeason?.join(", ") },
-  //   { label: "Flower color", value: product.flowerColor?.join(", ") },
-  // ].filter((f) => f.value);
-
-  // const all = (await getProducts()) as Product[];
-  // const related = [
-  //   ...all.filter((p) => p._id !== product._id && p.category === category),
-  //   ...all.filter((p) => p._id !== product._id && p.category !== category),
-  // ].slice(0, 4);
+  const discount =
+    regularPrice && regularPrice > salePrice ? Math.round((1 - salePrice / regularPrice) * 100) : 0;
+  const showBadge = badge && badge !== "none";
 
   return (
-    <>
-      <section className="mx-auto max-w-6xl pb-24 lg:pb-0">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-6">
-            <ProductGallery images={gallery} alt={name} />
-          </div>
+    <div className="mx-auto max-w-6xl">
+      <nav
+        aria-label="Breadcrumb"
+        className="mb-6 flex flex-wrap items-center gap-1 text-sm text-on-surface-variant"
+      >
+        <Link href="/shop" className="hover:text-primary">
+          Shop
+        </Link>
+        <ChevronRight size={14} aria-hidden="true" />
+        <Link
+          href={`/shop?category=${encodeURIComponent(primaryCategory)}`}
+          className="hover:text-primary"
+        >
+          {humanize(primaryCategory)}
+        </Link>
+        <ChevronRight size={14} aria-hidden="true" />
+        <span aria-current="page" className="font-semibold text-on-surface">
+          {name}
+        </span>
+      </nav>
 
-          <div className="space-y-6 lg:col-span-6 lg:self-center">
-            <div className="space-y-3">
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-primary-fixed px-3 py-1 text-xs font-bold uppercase tracking-wider text-on-primary-fixed">
-                  {primaryCategory}
-                </span>
-                {badge && (
-                  <span className="rounded-full bg-tertiary-fixed px-3 py-1 text-xs font-bold uppercase tracking-wider text-on-tertiary-fixed">
-                    {badge}
-                  </span>
-                )}
-              </div>
-              <h1 className="font-headline text-4xl font-bold leading-tight tracking-tight text-primary md:text-5xl">
-                {name}
-              </h1>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="font-headline text-4xl font-bold text-primary">Rs. {salePrice}</span>
-              {discount > 0 && (
-                <>
-                  <span className="text-base text-outline line-through">Rs. {regularPrice}</span>
-                  <span className="rounded-full bg-primary-fixed px-3 py-1 text-xs font-bold text-on-primary-fixed">
-                    {discount}% off
-                  </span>
-                </>
-              )}
-            </div>
-
-            {description && (
-              <p className="leading-relaxed text-on-surface-variant">{description}</p>
-            )}
-
-            <div className="flex flex-wrap items-center gap-2">
-              {inStock ? (
-                <span className="rounded-full bg-primary-fixed px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-on-primary-fixed">
-                  In stock
-                </span>
-              ) : (
-                <span className="rounded-full bg-error-container px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-on-error-container">
-                  Out of stock
-                </span>
-              )}
-              {inStock && stock <= 5 && (
-                <span className="text-sm font-semibold text-on-surface-variant">
-                  Only {stock} left
-                </span>
-              )}
-            </div>
-
-            {/* Desktop CTA; mobile uses the sticky bar below */}
-            <div className="hidden lg:block">
-              <InquireButton name={name} price={salePrice} slug={slug} inStock={inStock} />
-            </div>
-
-            {/* {facts.length > 0 && (
-              <dl className="grid grid-cols-2 gap-4 rounded-2xl bg-surface-container-low p-5 text-sm">
-                {facts.map((f) => (
-                  <div key={f.label}>
-                    <dt className="text-on-surface-variant">{f.label}</dt>
-                    <dd className="font-semibold capitalize text-on-surface">{f.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            )} */}
-
-            <div className="space-y-2 rounded-2xl border border-outline-variant p-5 text-sm">
-              <p className="font-semibold text-on-surface">Prefer to see it in person?</p>
-              <p className="flex items-center gap-2 text-on-surface-variant">
-                <MapPin size={16} /> Kalika Chowk, Butwal
-              </p>
-              <a
-                href="tel:+9779847440395"
-                className="flex items-center gap-2 text-on-surface-variant hover:text-primary"
-              >
-                <Phone size={16} /> +977 9847440395
-              </a>
-            </div>
-          </div>
+      <section className="grid grid-cols-1 gap-10 md:grid-cols-12">
+        <div className="md:col-span-6 lg:col-span-5 lg:sticky lg:top-24 lg:self-start flex flex-col gap-5">
+          <ProductGallery images={gallery} alt={name} />
+          <InPerson
+            maps={MAPS_URL}
+            address="Kalika Chowk, Butwal"
+            phone="9847440395"
+            extraClass="hidden md:block"
+          />
         </div>
-
-        {/* {related.length > 0 && (
-          <div className="mt-20">
-            <h2 className="mb-6 font-headline text-2xl font-bold text-primary">
-              You may also like
-            </h2>
-            <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
-              {related.map((p) => (
-                <ShopCard data={p} key={p._id} />
-              ))}
+        <div className="hidden lg:block lg:col-span-1"></div>
+        <div className="space-y-4 md:col-span-6">
+          <div className="space-y-3">
+            <div className="flex flex-wrap gap-2">
+              <span className="rounded-full bg-primary-fixed px-3 py-1 text-xs font-bold uppercase tracking-wider text-on-primary-fixed">
+                {cats ? slugToName(primaryCategory, cats) : humanize(primaryCategory)}
+              </span>
+              {showBadge && (
+                <span
+                  className={`${badgeStyles[badge]} rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider`}
+                >
+                  {BADGE_LABELS[badge] ?? badge}
+                </span>
+              )}
             </div>
+
+            <h1 className="font-body text-3xl font-bold leading-tight tracking-tight text-primary md:text-4xl">
+              {name}
+            </h1>
+            {nickname && (
+              <p className="text-on-surface-variant -mt-2">
+                Also known as <span className="font-semibold">{nickname}</span>
+              </p>
+            )}
           </div>
-        )} */}
+
+          <div className="flex flex-wrap items-center gap-2 mt-8">
+            <span className="font-headline text-3xl font-bold text-primary">
+              {formatPrice(salePrice)}
+            </span>
+            {regularPrice && discount > 0 && (
+              <>
+                <span className="text-base text-outline line-through">
+                  {formatPrice(regularPrice)}
+                </span>
+                <span className="rounded-full bg-primary-fixed px-3 py-1 text-xs font-bold text-on-primary-fixed">
+                  {discount}% off
+                </span>
+              </>
+            )}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            {inStock ? (
+              <span className="inline-flex items-center gap-2 rounded-full bg-primary-fixed px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-on-primary-fixed">
+                <span className="size-2 rounded-full bg-primary" aria-hidden="true" />
+                In stock
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-2 rounded-full bg-error-container px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-on-error-container">
+                <span className="size-2 rounded-full bg-error" aria-hidden="true" />
+                Out of stock
+              </span>
+            )}
+            {inStock && stock <= 10 && (
+              <span className="text-sm font-semibold text-on-surface-variant">
+                Only {stock} left
+              </span>
+            )}
+          </div>
+          {description && (
+            <div className="flex flex-col gap-1 mt-5 mb-5">
+              <p className="font-bold text-primary/80">Description</p>
+              <hr className=" border-on-surface-variant/20" />
+              <p className="whitespace-pre-line leading-relaxed text-on-surface-variant">
+                {description}
+              </p>
+            </div>
+          )}
+
+          {/* Desktop CTA */}
+          <div className="hidden lg:block">
+            <InquireButton name={name} price={salePrice} slug={slug} inStock={inStock} />
+          </div>
+
+          <PlantDetails product={product} />
+          <InPerson
+            maps={MAPS_URL}
+            address="Kalika Chowk, Butwal"
+            phone="9847440395"
+            extraClass="block md:hidden"
+          />
+        </div>
       </section>
 
-      {/* Mobile sticky CTA */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-outline-variant bg-white/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
-        <InquireButton name={name} price={salePrice} slug={slug} inStock={inStock} />
+      <RelatedProducts products={related} category={primaryCategory} />
+
+      {/* Mobile sticky bar */}
+      <div className="sticky bottom-3 z-30 mt-8 lg:hidden">
+        <div className="flex items-center gap-4 rounded-2xl border border-outline-variant bg-surface/95 p-3 shadow-lg backdrop-blur">
+          <div className="shrink-0 pl-1">
+            <p className="text-xs text-on-surface-variant">Price</p>
+            <p className="font-headline text-xl font-bold leading-none text-primary">
+              {formatPrice(salePrice)}
+            </p>
+          </div>
+          <div className="min-w-0 flex-1">
+            <InquireButton name={name} price={salePrice} slug={slug} inStock={inStock} />
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
