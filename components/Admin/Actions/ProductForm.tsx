@@ -154,6 +154,7 @@ export default function ProductForm({
 
             {/* Fields */}
             <div className="flex flex-col content-start gap-3">
+              {/* Name */}
               <div className="col-span-full space-y-2">
                 <label
                   htmlFor="name"
@@ -171,8 +172,8 @@ export default function ProductForm({
                   className={adminFormInputClass}
                 />
               </div>
-
               <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-5">
+                {/* Nickname */}
                 <div className="space-y-2">
                   <label
                     htmlFor="nickname"
@@ -189,7 +190,7 @@ export default function ProductForm({
                     className={adminFormInputClass}
                   />
                 </div>
-
+                {/* Status */}
                 <div className="relative">
                   <label
                     htmlFor="status"
@@ -211,7 +212,7 @@ export default function ProductForm({
                   </div>
                 </div>
               </div>
-
+              {/* Slug */}
               <div className="col-span-full space-y-2">
                 <label
                   htmlFor="slug"
@@ -236,7 +237,7 @@ export default function ProductForm({
               </div>
             </div>
           </div>
-
+          {/* Description */}
           <div className="flex flex-col flex-1">
             <label
               htmlFor="description"
@@ -261,6 +262,7 @@ export default function ProductForm({
         <div className="bg-surface-container-lowest p-5 rounded-3xl shadow-[0_4px_16px_rgba(22,29,26,0.02)] border border-outline-variant/20 space-y-6">
           <h2 className="text-lg font-headline font-bold text-primary">Pricing & Inventory</h2>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-3">
+            {/* Regular Price */}
             <div className="space-y-2">
               <label className="text-sm font-label font-bold text-on-surface-variant">
                 Regular Price
@@ -274,6 +276,7 @@ export default function ProductForm({
                 className={adminFormInputClass}
               />
             </div>
+            {/* Sale Price */}
             <div className="space-y-2">
               <label className="text-sm font-label font-bold text-on-surface-variant">
                 Sale Price *
@@ -287,6 +290,7 @@ export default function ProductForm({
                 className={adminFormInputClass}
               />
             </div>
+            {/* Bargain Price */}
             <div className="space-y-2">
               <label className="text-sm font-label font-bold text-on-surface-variant">
                 Bargain Price
@@ -299,6 +303,7 @@ export default function ProductForm({
                 className={adminFormInputClass}
               />
             </div>
+            {/* Stock */}
             <div className="space-y-2">
               <label className="text-sm font-label font-bold text-on-surface-variant">
                 Stock *
@@ -319,6 +324,7 @@ export default function ProductForm({
           <h2 className="text-lg font-headline font-bold text-primary">Organization</h2>
 
           <div className="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-3">
+            {/* Primary Category */}
             <div className="relative">
               <label className="text-sm font-label font-bold text-on-surface-variant">
                 Primary Category *
@@ -342,6 +348,7 @@ export default function ProductForm({
                 <ChevronDown size={"1em"} />
               </div>
             </div>
+            {/* Categories */}
             <div className="relative">
               <MultiSelect
                 key={initialData?._id ?? "new"}
@@ -352,6 +359,7 @@ export default function ProductForm({
                 defaultValue={initialData?.categories ?? []}
               />
             </div>
+            {/* Badge */}
             <div className="relative">
               <label className="text-sm font-label font-bold text-on-surface-variant">Badge</label>
               <select
@@ -361,7 +369,6 @@ export default function ProductForm({
                 className={`${adminFormInputClass} appearance-none`}
               >
                 <option value="sale">On Sale</option>
-                <option value="featured">Featured</option>
                 <option value="new">New</option>
                 <option value="none">None</option>
               </select>
