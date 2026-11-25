@@ -8,16 +8,16 @@ import { Leaf } from "lucide-react";
 
 const FulLShop = ({ prods, cats }: { prods: Product[]; cats: Category[] }) => {
   const [filtered, setFiltered] = useState<Product[]>(prods);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(8);
   return (
     prods && (
       <div className="flex flex-col lg:flex-row gap-5">
         <aside className="w-full lg:w-70 shrink-0 space-y-10">
           <ShopFilters arr={prods} setArr={setFiltered} categories={cats} />
         </aside>
-        <div className="grow">
+        <div className="grow mb-10">
           {filtered.length ? (
-            <MultipleProducts prods={filtered} categories={cats} limit={limit * 4} />
+            <MultipleProducts prods={filtered} categories={cats} limit={limit} />
           ) : (
             <div
               role="status"
@@ -30,9 +30,11 @@ const FulLShop = ({ prods, cats }: { prods: Product[]; cats: Category[] }) => {
               </p>
             </div>
           )}
-          {filtered.length ? (
-            <div className="mt-10 mb-5 flex justify-center">
-              <LargeBtn onClickFunc={() => setLimit((prev) => prev + 1)}>Expand Archive</LargeBtn>
+          {filtered.length && limit <= prods.length ? (
+            <div className="mt-10 flex justify-center">
+              <LargeBtn onClickFunc={() => limit <= prods.length && setLimit((prev) => prev + 4)}>
+                Expand Archive
+              </LargeBtn>
             </div>
           ) : (
             ""

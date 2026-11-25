@@ -12,10 +12,9 @@ const SearchBox = ({ prods }: { prods: SearchItem[] }) => {
     setQuery(value);
     setResult(
       prods.filter((item) => {
-        return (
-          item.name.toLowerCase().slice(0, value.length) == value.toLowerCase() ||
-          item.nickname?.toLowerCase().slice(0, value.length) == value.toLowerCase()
-        );
+        const lowerName = item.name.toLowerCase();
+        const lowerNick = item.nickname?.toLowerCase();
+        return lowerName.includes(value) || lowerNick?.includes(value);
       }),
     );
   };
@@ -27,7 +26,7 @@ const SearchBox = ({ prods }: { prods: SearchItem[] }) => {
           className="w-full font-headline bg-transparent focus:ring-0 placeholder:text-secondary text-on-primary-fixed outline-none"
           placeholder="Search here..."
           type="text"
-          onChange={(e) => filter(e.target.value)}
+          onChange={(e) => filter(e.target.value.toLowerCase())}
         />
       </div>
       {query && (

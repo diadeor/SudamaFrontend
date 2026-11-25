@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { fetchReq } from "@/components/functions/request";
-import { Category, Product } from "@/components/functions/types";
+import { Category, Featured, Product } from "@/components/functions/types";
 
 const REVALIDATE_TIME = 60 * 60 * 24 * 5;
 
@@ -14,6 +14,17 @@ export const getCategories = cache(async (): Promise<Category[] | null> => {
   const { data } = await fetchReq(`/api/categories`, false, REVALIDATE_TIME, "categories");
   return data?.success ? data.categories : null;
 });
+
+export const getFeatured = cache(
+  async (): Promise<{
+    products: Featured[];
+    categories: Featured[];
+    images: Featured[];
+  } | null> => {
+    const { data } = await fetchReq(`/api/featured`, false, REVALIDATE_TIME, "featured");
+    return data?.success ? data : null;
+  },
+);
 
 // Finders
 export const findProduct = async ({ prods, slug }: { prods: Product[]; slug: string }) => {

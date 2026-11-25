@@ -1,8 +1,4 @@
-import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import type { Product } from "@/components/functions/types";
-import { formatPrice, humanize } from "@/lib/helpers";
 import Section from "../layout/Section";
 import ShopCard from "./ShopCard";
 
@@ -18,20 +14,12 @@ export default function RelatedProducts({ products, category }: Props) {
       className="mt-5"
       linkText="All fruit"
     >
-      <ul className="grid grid-cols-2 gap-5 md:grid-cols-4 md:gap-6">
-        {products.map((p) => {
-          const inStock = p.stock > 0;
-          const discount =
-            p.regularPrice && p.regularPrice > p.salePrice
-              ? Math.round((1 - p.salePrice / p.regularPrice) * 100)
-              : 0;
-
-          return (
-            <li key={p.slug}>
-              <ShopCard data={p} />
-            </li>
-          );
-        })}
+      <ul className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
+        {products.map((p) => (
+          <li key={p.slug}>
+            <ShopCard data={p} />
+          </li>
+        ))}
       </ul>
     </Section>
   );
