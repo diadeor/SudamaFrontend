@@ -4,6 +4,8 @@ import { adminFormInputClass } from "@/components/ui/css";
 import { Info, User } from "@/components/functions/types";
 import { clientPost } from "@/components/functions/clientReq";
 import AdminPopup from "../Modules/AdminMsgPopup";
+import { useAuth } from "@/components/providers/AuthContext";
+import { useRouter } from "next/navigation";
 
 interface DetailsInput {
   type: "email" | "text" | "password";
@@ -25,11 +27,13 @@ const UpdateInput = ({ type, name, defaultVal, placeholder }: DetailsInput) => {
 };
 
 export const UserUpdateForm = ({ initialData }: { initialData: User }) => {
+  const { setUser } = useAuth();
   const { id, name, email } = initialData;
   const [info, setInfo] = useState<Info>({ type: "warn", message: "" });
   const detailsUpdateURL = `/api/users/update/${id}`;
   const detailsUpdateReq = clientPost(detailsUpdateURL, "put");
   const form = useRef<HTMLFormElement>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -40,6 +44,8 @@ export const UserUpdateForm = ({ initialData }: { initialData: User }) => {
     const { data, error } = await detailsUpdateReq(formObj);
     if (!error && data.success) {
       setInfo({ type: "success", message: data.message });
+      setUser(data.user);
+      router.refresh();
     } else {
       console.log("object");
       setInfo({ type: "error", message: error });
@@ -78,6 +84,8 @@ export const UserPasswordForm = () => {
   const passUpdateURL = `/api/auth/pass`;
   const passUpdateReq = clientPost(passUpdateURL);
   const form = useRef<HTMLFormElement>(null);
+  const { setUser } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -88,6 +96,8 @@ export const UserPasswordForm = () => {
     const { data, error } = await passUpdateReq(formObj);
     if (!error && data.success) {
       setInfo({ type: "success", message: data.message });
+      setUser(data.user);
+      router.refresh();
     } else {
       setInfo({ type: "error", message: error });
     }
